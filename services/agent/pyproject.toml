@@ -1,0 +1,20 @@
+[project]
+name = "avatar-agent"
+version = "0.1.0"
+description = "LiveKit Agents worker: the conversational brain of the digital human"
+requires-python = ">=3.12"
+dependencies = [
+    "avatar-core",
+    "livekit-agents[deepgram,cartesia,openai,groq,silero,simli]>=1.3",
+    "aiohttp>=3.10",
+]
+
+[tool.uv.sources]
+avatar-core = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/agent"]
