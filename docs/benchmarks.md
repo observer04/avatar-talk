@@ -58,3 +58,19 @@ Exact API error (`avatar.error`):
 `Simli face creation failed: HTTP 403: {"detail":"You have no Trinity-2 generations left. Your plan's monthly generations renew with your subscription, and Pro and Scale plans can buy more on https://app.simli.com/billing/generations"}`
 
 The key authenticates (the 403 is a quota response, not 401), and the account has no pre-existing face to reuse, so no avatar call was attempted. The same deployed loop was verified voice-only with a `browser3d` persona: join→greeting 2.57 s, tool turn 1.42 s, plain turn 2.42 s, barge-in 1.17 s (Groq `gpt-oss-120b`). Re-run the Simli leg after the plan's generations renew or a face is added to the account.
+
+### Preset faces: the free tier works (2026-11-10)
+
+Simli's free plan separates **streaming minutes** (≈200 on the account) from **Trinity-2 generations** (face builds from your own photo — zero on free). The [default face library](https://docs.simli.com/api-reference/preset-faces) needs **no generation**: a preset face ID is passed straight to the avatar session. A generation is only needed to clone a custom photo, so the avatar path is fully testable on free minutes.
+
+Two synthetic calls (direct dispatch, preset face `bf13113a-…` "Anna", Groq `gpt-oss-120b`) both ran the avatar end to end:
+
+| Metric | Voice only | Simli avatar |
+| --- | --- | --- |
+| join → greeting | 2.57 s | 4.80–4.96 s |
+| tool turn → first audio | 1.42 s | 1.90–1.98 s |
+| avatar video | — | 24.9 fps, 768×768, first frame 4.4–4.6 s after join |
+
+The avatar published lip-synced audio+video for the whole ~113 s session; the agent's cost model put avatar time at ≈$0.09 (≈$0.05/min, so the free minutes ≈ $10 of credit). The avatar adds ≈2.3 s to session start and ≈0.5 s per turn.
+
+**Turns 3–4 failed in both runs — Cartesia, not Simli.** TTS synthesis returned no audio; the underlying error is HTTP 402 `Model credits limit reached` — the Cartesia account is out of credits (confirmed with a direct API probe). The LLM answers existed; only synthesis failed. Until Cartesia is topped up or a TTS fallback is wired in, sessions lose audio after ~2 turns.
