@@ -116,3 +116,24 @@ A fresh Cartesia key was added to the agent's Modal secret and the warm containe
 | avatar video | — | 23.0 fps, 768×768, first frame 5.73 s after join |
 
 This is the first avatar run with barge-in captured: **1.57 s** through the Simli avatar. The low fps readings in the fallback-era runs (6.7–15.6) were caller-side degradation under host load; this run measured 23 fps despite a caller-side DNS hiccup at start, consistent with the 24.9 fps baseline. Avatar overhead vs voice-only: ≈1.5 s on join, ≈0.7–1.0 s per turn. The TTS fallback chain stays in place as a safety net.
+
+## FlashHead avatar (self-hosted, deployed)
+
+Spike results and the deployment recommendation are in [`docs/flashhead_spike.md`](flashhead_spike.md): **Lite model, eager mode, one L40S worker per session, scaled to zero.** Deployed as `avatar-talk-flashhead` (Modal, us-east), sharing the `avatar-talk-agent` secret. Full production-path e2e (API → dispatch → agent → GPU worker), persona photo fetched from the API, Groq `gpt-oss-120b`, Cartesia `sonic-3`:
+
+| Metric | Voice only | FlashHead (cold worker) | FlashHead (warm worker) |
+| --- | --- | --- | --- |
+| join → greeting | 4.31 s | 49.9 s — cold start beat the 45 s join timeout, agent fell back to voice-only; the avatar joined late and published idle video | **7.98 s** |
+| tool turn → first audio | 1.66 s | — (voice-only audio) | 4.76 s |
+| plain turn → first audio | 1.86 s | — | 5.62 s |
+| barge-in | 1.37 s | — | **2.03 s** |
+| video | — | 24.6 fps, 512×512 (idle motion) | 24.3 fps at the caller / **25.0 fps, 61 chunks** at the worker, 512×512 |
+
+The warm run is the complete avatar path: TTS audio over the DataStream, lip-synced video published for the whole session, and a real barge-in exercising `clear_buffer` mid-session.
+
+**Reliability fix (found in the first full-session e2e):** the worker crashed 25 s into the session — `TypeError: unsupported operand type(s) for +=: 'NoneType' and 'float'` in `_pace()`. `clear_buffer()` (sent by the agent on interruption) resets the pacing deadline to `None` while `_pace()` is awaiting its sleep; on resume it did `None += 1/fps`. Fixed with a post-sleep re-anchor, plus a regression test that reproduces the exact production traceback on the old code (`test_clear_buffer_during_pace_sleep_does_not_crash`).
+
+**Known gaps:**
+- **Cold start vs join timeout.** A cold L40S container takes 25–80 s; the agent waits 45 s (`avatar_join_timeout`) then falls back to voice-only gracefully (the avatar still joins and publishes idle video). Warm joins are ~5–6 s. Pre-warm before demos: `FLASHHEAD_KEEP_WARM=1` at deploy time, or a dummy launch.
+- **Per-turn latency.** The avatar adds ~3–4 s per turn (0.96 s audio chunks + frame pacing + the DataStream hop) vs ~0.7–1.0 s for Simli. Follow-up tuning: smaller chunks, and isolating the model in its own process to fix the ~300–500 ms media-path stalls (GIL contention with the LiveKit event loop).
+- **Cost.** ~$0.09 of L40S for a 2-minute single-stream session; $0.68/stream-hr at 4-stream density (see the spike report).
