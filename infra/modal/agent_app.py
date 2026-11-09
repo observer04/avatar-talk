@@ -44,6 +44,9 @@ app = modal.App("avatar-talk-agent")
     max_containers=MIN_WORKERS,  # LiveKit balances jobs across registered workers
     timeout=24 * 3600,
     scaledown_window=20 * 60,
+    # Next to the AI providers (Deepgram, Groq, Cartesia are US-hosted); LiveKit's backbone
+    # carries audio from the user's nearest edge.
+    region="us-east",
 )
 class AgentWorker:
     @modal.enter()

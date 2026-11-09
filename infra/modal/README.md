@@ -63,4 +63,11 @@ uv export --package avatar-api   --no-dev --no-emit-workspace --frozen --no-hash
 
 ## Region
 
-The agent container currently lands in Europe; LiveKit reports it as "Germany 2". From the cloud monitor, the reply starts about 2.2 s after a plain question and a tool filler plays after about 1.0 s. Pinning the agent next to the AI providers (`region="us-east"` on the class) is the next latency experiment.
+The agent is pinned to `region="us-east"`, next to Deepgram, Groq and Cartesia. LiveKit reports it as "US East B". Measured from the cloud monitor:
+
+| Agent region | Plain turn → first audio | Tool turn → filler | Barge-in |
+| --- | --- | --- | --- |
+| Europe ("Germany 2", unpinned) | 2.21 s | 0.96 s | 1.43 s |
+| `us-east` (2 runs) | 1.40–1.82 s | 1.21–1.95 s | 1.23–1.33 s |
+
+The monitor runs on Modal in the US too. A user in India adds the LiveKit backbone hop from the India edge to the US, roughly 0.25 s round trip.
