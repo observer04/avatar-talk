@@ -14,22 +14,22 @@ import sys
 from datetime import UTC, datetime
 from typing import Any
 
-_context: contextvars.ContextVar[dict[str, Any]] = contextvars.ContextVar("log_context", default={})
+_context: contextvars.ContextVar[dict[str, Any]] = contextvars.ContextVar("log_context")
 _service_name = "avatar-talk"
 
 
 def bind(**fields: Any) -> contextvars.Token:
     """Add correlation fields (session_id=..., room=...) to all logs in this context."""
-    return _context.set({**_context.get(), **{k: v for k, v in fields.items() if v is not None}})
+    return _context.set({**_context.get({}), **{k: v for k, v in fields.items() if v is not None}})
 
 
 def current_context() -> dict[str, Any]:
-    return dict(_context.get())
+    return dict(_context.get({}))
 
 
 class _ContextFilter(logging.Filter):
     def filter(self, record: logging.LogRecord) -> bool:
-        record.ctx = _context.get()
+        record.ctx = _context.get({})
         record.service = _service_name
         return True
 
@@ -76,7 +76,7 @@ def _install_record_factory() -> None:
         # Only these two attributes: frameworks pass their own `extra` keys (LiveKit
         # uses e.g. "room"), and logging refuses extras that overwrite record attributes.
         record.service = _service_name
-        record.ctx = _context.get()
+        record.ctx = _context.get({})
         return record
 
     factory._avatar_ctx = True  # type: ignore[attr-defined]

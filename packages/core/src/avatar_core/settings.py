@@ -11,7 +11,17 @@ from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-REPO_ROOT = Path(__file__).resolve().parents[4]
+
+def _find_repo_root() -> Path:
+    """The workspace root in a source checkout; the working directory when deployed
+    (containers ship the packages without the repo layout)."""
+    for parent in Path(__file__).resolve().parents:
+        if (parent / "pyproject.toml").exists() and (parent / "packages").is_dir():
+            return parent
+    return Path.cwd()
+
+
+REPO_ROOT = _find_repo_root()
 
 
 class ServiceSettings(BaseSettings):

@@ -1,0 +1,22 @@
+# Local dev dependencies: Postgres (production-like DB) and Jaeger (view OTel traces).
+#   docker compose -f infra/docker-compose.dev.yml up -d
+# Then in .env:
+#   DATABASE_URL=postgresql://avatar:avatar@localhost:5432/avatar
+#   OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318      (traces at http://localhost:16686)
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: avatar
+      POSTGRES_PASSWORD: avatar
+      POSTGRES_DB: avatar
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+
+  jaeger:
+    image: jaegertracing/jaeger:2.5.0
+    ports:
+      - "16686:16686"  # UI
+      - "4318:4318"    # OTLP/HTTP
+volumes:
+  pgdata:

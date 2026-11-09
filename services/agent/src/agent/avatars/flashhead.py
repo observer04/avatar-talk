@@ -9,12 +9,13 @@ over a LiveKit DataStream and publishes synchronized audio + video.
 
 from __future__ import annotations
 
+import asyncio
 import logging
 
 import aiohttp
 from avatar_core import Persona
 from livekit import api, rtc
-from livekit.agents import AgentSession
+from livekit.agents import AgentSession, utils
 from livekit.agents.voice.avatar import DataStreamAudioOutput
 
 from agent.settings import settings
@@ -65,16 +66,10 @@ class FlashHeadBackend:
         session.output.audio = DataStreamAudioOutput(
             room, destination_identity=AVATAR_IDENTITY, sample_rate=SAMPLE_RATE, wait_playback_start=True
         )
-        await rtc_wait_for_participant(room, AVATAR_IDENTITY, settings.avatar_join_timeout)
+        async with asyncio.timeout(settings.avatar_join_timeout):
+            await utils.wait_for_participant(room=room, identity=AVATAR_IDENTITY)
         return True
 
     async def aclose(self) -> None:
         pass
 
-
-async def rtc_wait_for_participant(room: rtc.Room, identity: str, timeout: float) -> None:
-    import asyncio
-
-    from livekit.agents import utils
-
-    await asyncio.wait_for(utils.wait_for_participant(room=room, identity=identity), timeout)

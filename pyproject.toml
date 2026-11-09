@@ -18,5 +18,14 @@ asyncio_default_fixture_loop_scope = "function"
 testpaths = ["packages/core/tests", "services/agent/tests", "services/api/tests"]
 
 [tool.ruff]
-line-length = 110
+line-length = 120
 target-version = "py312"
+extend-exclude = ["legacy", "services/avatar_flashhead/spike", "services/api/migrations"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "ASYNC"]
+ignore = ["B008"]  # FastAPI Depends()/File() in argument defaults
+
+[tool.ruff.lint.per-file-ignores]
+"services/agent/src/agent/cues.py" = ["E501"]  # prompt prose stays one line per paragraph
+"services/agent/scripts/*" = ["ASYNC109", "B023"]  # test harness: explicit timeouts, polled lambdas

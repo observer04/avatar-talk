@@ -1,10 +1,9 @@
 import pytest
-from avatar_core import AvatarBackend, AvatarConfig, Persona, SessionMetadata
-
 from agent.avatars import get_backend
 from agent.persona_agent import build_instructions
 from agent.persona_source import parse_metadata, resolve_persona
 from agent.providers import parse_model_ref, stt_handles_turns
+from avatar_core import AvatarBackend, AvatarConfig, Persona, SessionMetadata
 
 
 def test_parse_model_ref():

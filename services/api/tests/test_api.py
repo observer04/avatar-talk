@@ -2,12 +2,11 @@ import io
 
 import httpx
 import pytest
-from PIL import Image
-
 from api import avatars
 from api.db import init_db
 from api.main import app
 from api.routes import sessions as sessions_routes
+from PIL import Image
 
 AUTH = {"Authorization": "Bearer test-key"}
 
