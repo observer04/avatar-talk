@@ -36,3 +36,25 @@ Decisions:
 Known issues:
 - **Early end-of-turn:** Flux sometimes ends the turn early when a sentence is grammatically complete before the speaker is done. It heard "…in London right" and cut "now?" in 2 of 5 runs. Tune `eot_threshold` with real users.
 - **Cartesia concurrency:** the plan rejects parallel requests (HTTP 429 on 3 concurrent syntheses). That caps how many concurrent sessions are possible; check the plan limits before load testing.
+
+## Simli avatar (deployed)
+
+Setup:
+- **Stack:** control-plane API and web on Modal (`https://observer04--avatar-talk-api-web.us-east.modal.run`), agent worker on Modal `us-east`, Simli Trinity face built from the persona photo through `PUT /v1/personas/{id}/photo`.
+- **Caller:** `services/agent/scripts/synthetic_call.py --persona-id …` (API → LiveKit dispatch → agent).
+
+Result: **blocked by the Simli account quota — no avatar metrics could be measured.**
+
+| Step | Result |
+| --- | --- |
+| `POST /v1/personas` (`avatar_backend=simli`) | 201, status `pending` |
+| `PUT /v1/personas/{id}/photo` (512×512 normalised JPEG from the test portrait) | 200 after 20.0 s, status `failed` |
+| `GET /v1/personas/{id}` | 200, same `avatar.error` |
+| `GET https://api.simli.ai/faces` | 200, 0 faces on the account |
+| Face build time | not reached (request rejected) |
+| Avatar join time / video fps / avatar e2e latency | not measured |
+
+Exact API error (`avatar.error`):
+`Simli face creation failed: HTTP 403: {"detail":"You have no Trinity-2 generations left. Your plan's monthly generations renew with your subscription, and Pro and Scale plans can buy more on https://app.simli.com/billing/generations"}`
+
+The key authenticates (the 403 is a quota response, not 401), and the account has no pre-existing face to reuse, so no avatar call was attempted. The same deployed loop was verified voice-only with a `browser3d` persona: join→greeting 2.57 s, tool turn 1.42 s, plain turn 2.42 s, barge-in 1.17 s (Groq `gpt-oss-120b`). Re-run the Simli leg after the plan's generations renew or a face is added to the account.
