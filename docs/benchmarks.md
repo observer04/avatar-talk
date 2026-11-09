@@ -102,3 +102,17 @@ Every session starts with a Cartesia 402 (`Invalid response status`, `status_cod
 The avatar fps is below the 24.9 fps measured in the earlier preset-face run. Run 1 logged a caller-side DNS failure (`Temporary failure in name resolution`) and a native video queue overflow; the host was also under load from parallel work. The avatar published 768×768 video for the whole session in both runs and the agent-side turn metrics were normal, so this looks like caller-side degradation rather than an avatar or TTS regression. Simli time spent: ≈2.7 min across the two calls (≈$0.14 of avatar cost, from the session summaries).
 
 Synthetic monitor validation (`modal run infra/modal/monitor_app.py`, 2026-11-10): join → greeting 3.36 s, tool turn 3.03 s, plain turn 1.60 s, barge-in 1.22 s, `problems: []`. The monitor's three scripted questions all hit Cartesia 402 and were synthesised with Deepgram instead.
+
+### Cartesia restored (2026-11-10)
+
+A fresh Cartesia key was added to the agent's Modal secret and the warm container restarted. A direct API probe returned HTTP 200, and the next full avatar run completed every phase on the primary voice (no 402s, no fallback switches):
+
+| Metric | Voice only | Simli avatar (preset "Anna") |
+| --- | --- | --- |
+| join → greeting | 4.31 s | 5.87 s |
+| tool turn → first audio | 1.66 s | 2.32 s |
+| plain turn → first audio | 1.86 s | 2.91 s |
+| barge-in (heard) | 1.37 s | **1.57 s** |
+| avatar video | — | 23.0 fps, 768×768, first frame 5.73 s after join |
+
+This is the first avatar run with barge-in captured: **1.57 s** through the Simli avatar. The low fps readings in the fallback-era runs (6.7–15.6) were caller-side degradation under host load; this run measured 23 fps despite a caller-side DNS hiccup at start, consistent with the 24.9 fps baseline. Avatar overhead vs voice-only: ≈1.5 s on join, ≈0.7–1.0 s per turn. The TTS fallback chain stays in place as a safety net.
