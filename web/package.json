@@ -7,14 +7,16 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "mock": "node mock/server.mjs",
+    "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
+    "@livekit/components-react": "^2.9.25",
     "@met4citizen/headaudio": "^1.0.0",
     "@met4citizen/talkinghead": "^1.8.2",
-    "@pipecat-ai/client-js": "^1.16.0",
-    "@pipecat-ai/small-webrtc-transport": "^1.11.2",
     "@types/three": "^0.186.0",
+    "livekit-client": "^2.23.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "three": "^0.186.1"
@@ -24,6 +26,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
+    "livekit-server-sdk": "^2.19.2",
     "oxlint": "^1.90.0",
     "typescript": "~7.0.2",
     "vite": "^8.3.6"

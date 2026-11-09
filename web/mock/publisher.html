@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake video avatar</title>
+    <style>
+      body { background: #111; color: #ddd; font: 14px system-ui, sans-serif; padding: 16px; }
+      canvas { width: 256px; border-radius: 12px; }
+    </style>
+  </head>
+  <body>
+    <!-- Dev-only (served by `npm run dev`, not part of the build): joins a room
+         as a fake photoreal avatar and publishes an animated canvas as a camera
+         track, so the call view's video mode can be tested without Simli/GPU.
+         /mock/publisher.html?room=room_xxx[&identity=flashhead-avatar] -->
+    <p id="status">starting…</p>
+    <canvas id="c" width="512" height="512"></canvas>
+    <script type="module" src="./publisher.js"></script>
+  </body>
+</html>

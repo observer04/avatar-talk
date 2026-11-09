@@ -106,6 +106,11 @@ export class TalkingHeadRenderer implements AvatarRenderer {
     this.headaudio = headaudio
   }
 
+  /** TalkingHead's AudioContext (null until mounted). */
+  get audioContext(): AudioContext | null {
+    return this.head?.audioCtx ?? null
+  }
+
   async unlockAudio(): Promise<void> {
     const ctx = this.head?.audioCtx
     if (ctx && ctx.state !== 'running') await ctx.resume()
