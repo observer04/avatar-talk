@@ -1,0 +1,3768 @@
+{
+ "cold_start": {
+  "gpu_requested": "H100!",
+  "gpu": "NVIDIA H100 80GB HBM3, 81559 MiB, 610.57.04",
+  "call_to_container_python_s": 4.270408868789673,
+  "call_to_enter_s": 4.27541708946228,
+  "info_roundtrip_s": 4.449906587600708
+ },
+ "results": [
+  {
+   "name": "lite_single_compiled",
+   "n_workers": 1,
+   "warm_wall_s": 266.2119650840759,
+   "max_mem_used_mib": 6259.0,
+   "mean_util_pct": 22.868852459016395,
+   "workers": [
+    {
+     "cfg": {
+      "model": "lite",
+      "image": "/opt/flashhead/examples/girl.png",
+      "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+      "compile": true,
+      "sage": false,
+      "warmup": 6,
+      "n_chunks": 40,
+      "cache_key": "H100!",
+      "worker_id": 0,
+      "barrier_dir": "/tmp/tmp40icdlvk",
+      "out_json": "/tmp/tmp40icdlvk/out_0.json",
+      "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+      "wav2vec_dir": "/weights/wav2vec2-base-960h"
+     },
+     "attn_backend": "flash_attn_2",
+     "worker_id": 0,
+     "t_proc_start": 1794237745.5239935,
+     "import_s": 15.216649293899536,
+     "model_load_s": 10.514675617218018,
+     "vram_after_load_gib": 3.999420642852783,
+     "prepare_image_s": 28.538230419158936,
+     "params": {
+      "sample_rate": 16000,
+      "tgt_fps": 25,
+      "frame_num": 33,
+      "motion_frames_num": 9,
+      "new_frames_per_chunk": 24,
+      "audio_s_per_chunk": 0.96,
+      "cached_audio_duration": 8,
+      "height": 512,
+      "width": 512,
+      "sample_steps": 4
+     },
+     "warmup_chunk_s": [
+      196.058999818,
+      0.17406459500000437,
+      0.1687356139999565,
+      0.16755230899997287,
+      0.167674141999953,
+      0.16784186799998224
+     ],
+     "ready_s_since_proc_start": 266.040256023407,
+     "chunks": 40,
+     "first_chunk_s": 0.17080537999999024,
+     "chunk_total_mean_s": 0.168590357224997,
+     "chunk_total_p50_s": 0.16857484400000544,
+     "chunk_total_p95_s": 0.17134504485000832,
+     "chunk_total_max_s": 0.17177068900002723,
+     "audio_embed_mean_s": 0.013980732574997035,
+     "dit_vae_mean_s": 0.1515292089500065,
+     "to_cpu_mean_s": 0.0030804156999934664,
+     "run_wall_s": 6.744965249000018,
+     "sustained_fps": 142.3283834030614,
+     "realtime_chunks_frac": 1.0,
+     "peak_alloc_gib": 4.836479663848877,
+     "peak_reserved_gib": 5.423828125,
+     "timings": [
+      {
+       "audio_embed": 0.014677885999958562,
+       "dit_vae": 0.15306763000000956,
+       "to_cpu": 0.0030598640000221167,
+       "total": 0.17080537999999024
+      },
+      {
+       "audio_embed": 0.013732795999999325,
+       "dit_vae": 0.15181104400005552,
+       "to_cpu": 0.0031189749999498417,
+       "total": 0.16866281500000468
+      },
+      {
+       "audio_embed": 0.013640363999968486,
+       "dit_vae": 0.15179974400001583,
+       "to_cpu": 0.0030626440000105504,
+       "total": 0.16850275199999487
+      },
+      {
+       "audio_embed": 0.013651215000038519,
+       "dit_vae": 0.15179767399996535,
+       "to_cpu": 0.0030920940000100927,
+       "total": 0.16854098300001397
+      },
+      {
+       "audio_embed": 0.01372653599997875,
+       "dit_vae": 0.1521728390000021,
+       "to_cpu": 0.003056803999982094,
+       "total": 0.16895617899996296
+      },
+      {
+       "audio_embed": 0.013783367000030466,
+       "dit_vae": 0.1518660039999986,
+       "to_cpu": 0.003057393000005959,
+       "total": 0.16870676400003504
+      },
+      {
+       "audio_embed": 0.014241276999996444,
+       "dit_vae": 0.1516522390000432,
+       "to_cpu": 0.0030784139999582294,
+       "total": 0.16897192999999788
+      },
+      {
+       "audio_embed": 0.014160954999965725,
+       "dit_vae": 0.15144724499998574,
+       "to_cpu": 0.0030878740000161997,
+       "total": 0.16869607399996767
+      },
+      {
+       "audio_embed": 0.014205545999971037,
+       "dit_vae": 0.15127710100000513,
+       "to_cpu": 0.003102845000000798,
+       "total": 0.16858549199997697
+      },
+      {
+       "audio_embed": 0.014184765000038624,
+       "dit_vae": 0.15218590899996798,
+       "to_cpu": 0.0031220050000229094,
+       "total": 0.1694926790000295
+      },
+      {
+       "audio_embed": 0.014144635000036487,
+       "dit_vae": 0.1523133439999924,
+       "to_cpu": 0.003036232999988897,
+       "total": 0.1694942120000178
+      },
+      {
+       "audio_embed": 0.013979011000003538,
+       "dit_vae": 0.15230348400001503,
+       "to_cpu": 0.003027771999995821,
+       "total": 0.1693102670000144
+      },
+      {
+       "audio_embed": 0.013955021000015222,
+       "dit_vae": 0.1526281199999744,
+       "to_cpu": 0.0030623339999920063,
+       "total": 0.16964547499998162
+      },
+      {
+       "audio_embed": 0.014185245000021496,
+       "dit_vae": 0.15450900999996975,
+       "to_cpu": 0.003076434000035988,
+       "total": 0.17177068900002723
+      },
+      {
+       "audio_embed": 0.015403101000003971,
+       "dit_vae": 0.1515209069999628,
+       "to_cpu": 0.0031793160000006537,
+       "total": 0.17010332399996742
+      },
+      {
+       "audio_embed": 0.013413769000010234,
+       "dit_vae": 0.14999606600002835,
+       "to_cpu": 0.0030829939999534872,
+       "total": 0.16649282899999207
+      },
+      {
+       "audio_embed": 0.01334529799999018,
+       "dit_vae": 0.14997114700003067,
+       "to_cpu": 0.0030887949999964803,
+       "total": 0.16640524000001733
+      },
+      {
+       "audio_embed": 0.013263436999977785,
+       "dit_vae": 0.15018821200004595,
+       "to_cpu": 0.0032058369999958813,
+       "total": 0.16665748600001962
+      },
+      {
+       "audio_embed": 0.013618572999973821,
+       "dit_vae": 0.15020129200001975,
+       "to_cpu": 0.0030587640000021565,
+       "total": 0.16687862899999573
+      },
+      {
+       "audio_embed": 0.01329730700001619,
+       "dit_vae": 0.14985796499996695,
+       "to_cpu": 0.0030324730000188538,
+       "total": 0.166187745000002
+      },
+      {
+       "audio_embed": 0.013359938000007787,
+       "dit_vae": 0.15004597900002636,
+       "to_cpu": 0.0031211659999712538,
+       "total": 0.1665270830000054
+      },
+      {
+       "audio_embed": 0.013335127999994256,
+       "dit_vae": 0.15002124800003003,
+       "to_cpu": 0.0030605139999693165,
+       "total": 0.1664168899999936
+      },
+      {
+       "audio_embed": 0.0132917160000261,
+       "dit_vae": 0.15306165900000224,
+       "to_cpu": 0.0030400039999562978,
+       "total": 0.16939337899998463
+      },
+      {
+       "audio_embed": 0.01680001900001571,
+       "dit_vae": 0.15147120599999653,
+       "to_cpu": 0.0030746339999723205,
+       "total": 0.17134585899998456
+      },
+      {
+       "audio_embed": 0.01389439899998024,
+       "dit_vae": 0.1508915740000134,
+       "to_cpu": 0.0031077950000053534,
+       "total": 0.167893767999999
+      },
+      {
+       "audio_embed": 0.013970441000026312,
+       "dit_vae": 0.1513026719999857,
+       "to_cpu": 0.0031209750000016356,
+       "total": 0.16839408800001365
+      },
+      {
+       "audio_embed": 0.014021891999959735,
+       "dit_vae": 0.15149413599999662,
+       "to_cpu": 0.0030946850000077575,
+       "total": 0.1686107129999641
+      },
+      {
+       "audio_embed": 0.014955982000003587,
+       "dit_vae": 0.1519446670000093,
+       "to_cpu": 0.003096954000000096,
+       "total": 0.169997603000013
+      },
+      {
+       "audio_embed": 0.013877138999987437,
+       "dit_vae": 0.1508855570000378,
+       "to_cpu": 0.003078433999974095,
+       "total": 0.16784112999999934
+      },
+      {
+       "audio_embed": 0.013829498999996304,
+       "dit_vae": 0.1516304819999732,
+       "to_cpu": 0.0030416729999842573,
+       "total": 0.16850165399995376
+      },
+      {
+       "audio_embed": 0.013918730000000323,
+       "dit_vae": 0.15160440200003222,
+       "to_cpu": 0.00304106400000137,
+       "total": 0.16856419600003392
+      },
+      {
+       "audio_embed": 0.013900499999977,
+       "dit_vae": 0.15058861099998921,
+       "to_cpu": 0.003050013000006402,
+       "total": 0.16753912399997262
+      },
+      {
+       "audio_embed": 0.013636964999989232,
+       "dit_vae": 0.15047315800001115,
+       "to_cpu": 0.0030309429999988424,
+       "total": 0.16714106599999923
+      },
+      {
+       "audio_embed": 0.01360800399999107,
+       "dit_vae": 0.15058240000001888,
+       "to_cpu": 0.003081574000020737,
+       "total": 0.16727197800003069
+      },
+      {
+       "audio_embed": 0.01362994499999104,
+       "dit_vae": 0.15049101599998949,
+       "to_cpu": 0.0030890150000004724,
+       "total": 0.167209975999981
+      },
+      {
+       "audio_embed": 0.013705575999949815,
+       "dit_vae": 0.15053332800005137,
+       "to_cpu": 0.0031111349999832782,
+       "total": 0.16735003899998446
+      },
+      {
+       "audio_embed": 0.01445896199999197,
+       "dit_vae": 0.15083413400003565,
+       "to_cpu": 0.0031048249999798827,
+       "total": 0.1683979210000075
+      },
+      {
+       "audio_embed": 0.013865189000000555,
+       "dit_vae": 0.15426606599999104,
+       "to_cpu": 0.003059942999982468,
+       "total": 0.17119119799997407
+      },
+      {
+       "audio_embed": 0.01434792899999593,
+       "dit_vae": 0.15392123800000945,
+       "to_cpu": 0.00307583500000419,
+       "total": 0.17134500200000957
+      },
+      {
+       "audio_embed": 0.01421124600000212,
+       "dit_vae": 0.15255784900000435,
+       "to_cpu": 0.0030455829999596062,
+       "total": 0.16981467799996608
+      }
+     ]
+    }
+   ],
+   "min_worker_fps": 142.3283834030614,
+   "max_worker_p95_s": 0.17134504485000832,
+   "agg_fps": 142.3283834030614,
+   "all_realtime": true,
+   "job_wall_s": 281.3636291027069
+  },
+  {
+   "name": "lite_single_eager",
+   "n_workers": 1,
+   "warm_wall_s": 14.851590871810913,
+   "max_mem_used_mib": 6369.0,
+   "mean_util_pct": 37.44444444444444,
+   "workers": [
+    {
+     "cfg": {
+      "model": "lite",
+      "image": "/opt/flashhead/examples/girl.png",
+      "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+      "compile": false,
+      "sage": false,
+      "warmup": 3,
+      "n_chunks": 30,
+      "cache_key": "H100!",
+      "worker_id": 0,
+      "barrier_dir": "/tmp/tmpgpoz3x6g",
+      "out_json": "/tmp/tmpgpoz3x6g/out_0.json",
+      "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+      "wav2vec_dir": "/weights/wav2vec2-base-960h"
+     },
+     "attn_backend": "flash_attn_2",
+     "worker_id": 0,
+     "t_proc_start": 1794238026.8963075,
+     "import_s": 7.802670001983643,
+     "model_load_s": 4.222689390182495,
+     "vram_after_load_gib": 4.000030994415283,
+     "prepare_image_s": 0.4242672920227051,
+     "params": {
+      "sample_rate": 16000,
+      "tgt_fps": 25,
+      "frame_num": 33,
+      "motion_frames_num": 9,
+      "new_frames_per_chunk": 24,
+      "audio_s_per_chunk": 0.96,
+      "cached_audio_duration": 8,
+      "height": 512,
+      "width": 512,
+      "sample_steps": 4
+     },
+     "warmup_chunk_s": [
+      0.5027473060000034,
+      0.32851838599998473,
+      0.3259566909999876
+     ],
+     "ready_s_since_proc_start": 14.681563377380371,
+     "chunks": 30,
+     "first_chunk_s": 0.3293130800000199,
+     "chunk_total_mean_s": 0.3265582625000036,
+     "chunk_total_p50_s": 0.3264573010000049,
+     "chunk_total_p95_s": 0.3275849736000168,
+     "chunk_total_max_s": 0.3293130800000199,
+     "audio_embed_mean_s": 0.012830490833329123,
+     "dit_vae_mean_s": 0.3002236682666705,
+     "to_cpu_mean_s": 0.013504103400003941,
+     "run_wall_s": 9.797734669000022,
+     "sustained_fps": 73.48637458800309,
+     "realtime_chunks_frac": 1.0,
+     "peak_alloc_gib": 4.972527027130127,
+     "peak_reserved_gib": 5.53515625,
+     "timings": [
+      {
+       "audio_embed": 0.013382728000010502,
+       "dit_vae": 0.30280679999998483,
+       "to_cpu": 0.013123552000024574,
+       "total": 0.3293130800000199
+      },
+      {
+       "audio_embed": 0.012925299000016821,
+       "dit_vae": 0.2999178889999712,
+       "to_cpu": 0.013625373000024865,
+       "total": 0.32646856100001287
+      },
+      {
+       "audio_embed": 0.012433958000030998,
+       "dit_vae": 0.29966494299998203,
+       "to_cpu": 0.013584321999985605,
+       "total": 0.32568322299999863
+      },
+      {
+       "audio_embed": 0.012875557999961984,
+       "dit_vae": 0.29986418600003617,
+       "to_cpu": 0.013537350999968112,
+       "total": 0.32627709499996627
+      },
+      {
+       "audio_embed": 0.012859856999966723,
+       "dit_vae": 0.29942380700003923,
+       "to_cpu": 0.013524431000007553,
+       "total": 0.3258080950000135
+      },
+      {
+       "audio_embed": 0.013478190000000723,
+       "dit_vae": 0.30031797700002016,
+       "to_cpu": 0.013699975000008635,
+       "total": 0.3274961420000295
+      },
+      {
+       "audio_embed": 0.012960969000005207,
+       "dit_vae": 0.29977501700000175,
+       "to_cpu": 0.013452889000006962,
+       "total": 0.3261888750000139
+      },
+      {
+       "audio_embed": 0.013950199000021257,
+       "dit_vae": 0.299669085000005,
+       "to_cpu": 0.013545931999999539,
+       "total": 0.3271652160000258
+      },
+      {
+       "audio_embed": 0.013025540999990426,
+       "dit_vae": 0.3000570140000036,
+       "to_cpu": 0.013601042000004782,
+       "total": 0.3266835969999988
+      },
+      {
+       "audio_embed": 0.012806756000031783,
+       "dit_vae": 0.2997870979999675,
+       "to_cpu": 0.01353414100003647,
+       "total": 0.32612799500003575
+      },
+      {
+       "audio_embed": 0.012614622000000963,
+       "dit_vae": 0.29992321200001015,
+       "to_cpu": 0.013491740000006303,
+       "total": 0.3260295740000174
+      },
+      {
+       "audio_embed": 0.012699113999985912,
+       "dit_vae": 0.30033325799996646,
+       "to_cpu": 0.013413669000044592,
+       "total": 0.32644604099999697
+      },
+      {
+       "audio_embed": 0.012606871999992109,
+       "dit_vae": 0.2995230320000246,
+       "to_cpu": 0.013650612999981604,
+       "total": 0.3257805169999983
+      },
+      {
+       "audio_embed": 0.0125612310000065,
+       "dit_vae": 0.29991419999998925,
+       "to_cpu": 0.013460468999994646,
+       "total": 0.3259358999999904
+      },
+      {
+       "audio_embed": 0.01259008099998482,
+       "dit_vae": 0.2998818369999867,
+       "to_cpu": 0.013374517999977797,
+       "total": 0.32584643599994934
+      },
+      {
+       "audio_embed": 0.01261261199999808,
+       "dit_vae": 0.3006355219999932,
+       "to_cpu": 0.013494390000005296,
+       "total": 0.3267425239999966
+      },
+      {
+       "audio_embed": 0.012590862000024572,
+       "dit_vae": 0.29975129399997513,
+       "to_cpu": 0.013603891999991902,
+       "total": 0.3259460479999916
+      },
+      {
+       "audio_embed": 0.012653143000022737,
+       "dit_vae": 0.3008075490000124,
+       "to_cpu": 0.013475519999985863,
+       "total": 0.326936212000021
+      },
+      {
+       "audio_embed": 0.01266153299997086,
+       "dit_vae": 0.29989853300003233,
+       "to_cpu": 0.01346445000001495,
+       "total": 0.32602451600001814
+      },
+      {
+       "audio_embed": 0.012687174000006962,
+       "dit_vae": 0.2999145130000329,
+       "to_cpu": 0.01348336999996036,
+       "total": 0.32608505700000023
+      },
+      {
+       "audio_embed": 0.012606691999963004,
+       "dit_vae": 0.30029822800003103,
+       "to_cpu": 0.01358124199998656,
+       "total": 0.3264861619999806
+      },
+      {
+       "audio_embed": 0.012615391999986514,
+       "dit_vae": 0.29983237700002974,
+       "to_cpu": 0.013341666999963309,
+       "total": 0.32578943599997956
+      },
+      {
+       "audio_embed": 0.012609331999954065,
+       "dit_vae": 0.30080460700003187,
+       "to_cpu": 0.013626723000015772,
+       "total": 0.3270406620000017
+      },
+      {
+       "audio_embed": 0.012627371999997195,
+       "dit_vae": 0.30082385899999053,
+       "to_cpu": 0.013505980999980238,
+       "total": 0.32695721199996797
+      },
+      {
+       "audio_embed": 0.012733593999996629,
+       "dit_vae": 0.30032275100001016,
+       "to_cpu": 0.013507580000009511,
+       "total": 0.3265639250000163
+      },
+      {
+       "audio_embed": 0.012791515000003528,
+       "dit_vae": 0.3007380399999988,
+       "to_cpu": 0.01350132000004578,
+       "total": 0.3270308750000481
+      },
+      {
+       "audio_embed": 0.014037181999981385,
+       "dit_vae": 0.300127582000016,
+       "to_cpu": 0.013492890000009083,
+       "total": 0.32765765400000646
+      },
+      {
+       "audio_embed": 0.012627242000007755,
+       "dit_vae": 0.30083438299999443,
+       "to_cpu": 0.013533331000019189,
+       "total": 0.3269949560000214
+      },
+      {
+       "audio_embed": 0.012604951999946934,
+       "dit_vae": 0.3000375350000013,
+       "to_cpu": 0.013485170000024027,
+       "total": 0.32612765699997226
+      },
+      {
+       "audio_embed": 0.012685153000006721,
+       "dit_vae": 0.30102391999997735,
+       "to_cpu": 0.013405559000034373,
+       "total": 0.32711463200001845
+      }
+     ]
+    }
+   ],
+   "min_worker_fps": 73.48637458800309,
+   "max_worker_p95_s": 0.3275849736000168,
+   "agg_fps": 73.48637458800309,
+   "all_realtime": true,
+   "job_wall_s": 25.970991134643555
+  },
+  {
+   "name": "lite_single_compiled_sage1",
+   "n_workers": 1,
+   "warm_wall_s": 241.96618461608887,
+   "max_mem_used_mib": 6189.0,
+   "mean_util_pct": 27.94736842105263,
+   "workers": [
+    {
+     "cfg": {
+      "model": "lite",
+      "image": "/opt/flashhead/examples/girl.png",
+      "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+      "compile": true,
+      "sage": true,
+      "warmup": 6,
+      "n_chunks": 40,
+      "cache_key": "H100!",
+      "worker_id": 0,
+      "barrier_dir": "/tmp/tmppkppzuga",
+      "out_json": "/tmp/tmppkppzuga/out_0.json",
+      "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+      "wav2vec_dir": "/weights/wav2vec2-base-960h"
+     },
+     "attn_backend": "sageattention",
+     "worker_id": 0,
+     "t_proc_start": 1794238052.8755343,
+     "import_s": 7.618147134780884,
+     "model_load_s": 5.266104459762573,
+     "vram_after_load_gib": 4.000030994415283,
+     "prepare_image_s": 5.050693511962891,
+     "params": {
+      "sample_rate": 16000,
+      "tgt_fps": 25,
+      "frame_num": 33,
+      "motion_frames_num": 9,
+      "new_frames_per_chunk": 24,
+      "audio_s_per_chunk": 0.96,
+      "cached_audio_duration": 8,
+      "height": 512,
+      "width": 512,
+      "sample_steps": 4
+     },
+     "warmup_chunk_s": [
+      221.556910855,
+      0.18370003600000473,
+      0.1786088590000645,
+      0.18106993100002455,
+      0.1796734719999904,
+      0.17898305699998218
+     ],
+     "ready_s_since_proc_start": 241.77099585533142,
+     "chunks": 40,
+     "first_chunk_s": 0.18666655799995624,
+     "chunk_total_mean_s": 0.18235445777499137,
+     "chunk_total_p50_s": 0.18260963149992904,
+     "chunk_total_p95_s": 0.1837439004000771,
+     "chunk_total_max_s": 0.18666655799995624,
+     "audio_embed_mean_s": 0.013407872849995783,
+     "dit_vae_mean_s": 0.15558797227499496,
+     "to_cpu_mean_s": 0.013358612650000623,
+     "run_wall_s": 7.295515314999989,
+     "sustained_fps": 131.58768894997536,
+     "realtime_chunks_frac": 1.0,
+     "peak_alloc_gib": 4.84306001663208,
+     "peak_reserved_gib": 5.357421875,
+     "timings": [
+      {
+       "audio_embed": 0.01459418599995388,
+       "dit_vae": 0.1585001480000301,
+       "to_cpu": 0.013572223999972266,
+       "total": 0.18666655799995624
+      },
+      {
+       "audio_embed": 0.013319249000005584,
+       "dit_vae": 0.15569127900005242,
+       "to_cpu": 0.01343771199992716,
+       "total": 0.18244823999998516
+      },
+      {
+       "audio_embed": 0.013134665000052337,
+       "dit_vae": 0.1559865849999369,
+       "to_cpu": 0.013532084000075884,
+       "total": 0.18265333400006512
+      },
+      {
+       "audio_embed": 0.013188965999916036,
+       "dit_vae": 0.1563958140000068,
+       "to_cpu": 0.01339317999998002,
+       "total": 0.18297795999990285
+      },
+      {
+       "audio_embed": 0.01360361499996543,
+       "dit_vae": 0.15597958499995457,
+       "to_cpu": 0.013364109999997709,
+       "total": 0.1829473099999177
+      },
+      {
+       "audio_embed": 0.013308587999972588,
+       "dit_vae": 0.15576920099999825,
+       "to_cpu": 0.013193205999982638,
+       "total": 0.18227099499995347
+      },
+      {
+       "audio_embed": 0.013451920999955291,
+       "dit_vae": 0.1558254220000208,
+       "to_cpu": 0.013334268999983578,
+       "total": 0.18261161199995968
+      },
+      {
+       "audio_embed": 0.013790779000032671,
+       "dit_vae": 0.15612842799998816,
+       "to_cpu": 0.013370639999948253,
+       "total": 0.18328984699996909
+      },
+      {
+       "audio_embed": 0.01382179899997027,
+       "dit_vae": 0.15640996500007986,
+       "to_cpu": 0.013374169999906371,
+       "total": 0.1836059339999565
+      },
+      {
+       "audio_embed": 0.013587985000071967,
+       "dit_vae": 0.1560882459999675,
+       "to_cpu": 0.013356209999983548,
+       "total": 0.18303244100002303
+      },
+      {
+       "audio_embed": 0.013403250000010303,
+       "dit_vae": 0.15622369899995192,
+       "to_cpu": 0.013347249000048578,
+       "total": 0.1829741980000108
+      },
+      {
+       "audio_embed": 0.01339319000010164,
+       "dit_vae": 0.1562192189999223,
+       "to_cpu": 0.01336818000004314,
+       "total": 0.18298058900006708
+      },
+      {
+       "audio_embed": 0.013368809999974474,
+       "dit_vae": 0.1559301229999619,
+       "to_cpu": 0.013308717999962028,
+       "total": 0.1826076509998984
+      },
+      {
+       "audio_embed": 0.013378518999957123,
+       "dit_vae": 0.15586230200005957,
+       "to_cpu": 0.013337828999965495,
+       "total": 0.1825786499999822
+      },
+      {
+       "audio_embed": 0.013381679999952212,
+       "dit_vae": 0.15645921400005136,
+       "to_cpu": 0.013401991000023372,
+       "total": 0.18324288500002694
+      },
+      {
+       "audio_embed": 0.013590124000074866,
+       "dit_vae": 0.15678302199989957,
+       "to_cpu": 0.01332510900010675,
+       "total": 0.1836982550000812
+      },
+      {
+       "audio_embed": 0.013471052999989297,
+       "dit_vae": 0.15599369500000648,
+       "to_cpu": 0.013313638999989053,
+       "total": 0.18277838699998483
+      },
+      {
+       "audio_embed": 0.01338713099994493,
+       "dit_vae": 0.1564034040000024,
+       "to_cpu": 0.013325249000104122,
+       "total": 0.18311578400005146
+      },
+      {
+       "audio_embed": 0.013431620999995175,
+       "dit_vae": 0.15576944099996126,
+       "to_cpu": 0.013380699999970602,
+       "total": 0.18258176199992704
+      },
+      {
+       "audio_embed": 0.013387660000034884,
+       "dit_vae": 0.15587940299997172,
+       "to_cpu": 0.013133304999996653,
+       "total": 0.18240036800000325
+      },
+      {
+       "audio_embed": 0.013405999999918095,
+       "dit_vae": 0.15589633700005834,
+       "to_cpu": 0.013326457999937702,
+       "total": 0.18262879499991413
+      },
+      {
+       "audio_embed": 0.01336222899999484,
+       "dit_vae": 0.15581366199990043,
+       "to_cpu": 0.013311217000023134,
+       "total": 0.1824871079999184
+      },
+      {
+       "audio_embed": 0.013355959000023176,
+       "dit_vae": 0.15806702899999436,
+       "to_cpu": 0.013188174999982039,
+       "total": 0.18461116299999958
+      },
+      {
+       "audio_embed": 0.013575283000022864,
+       "dit_vae": 0.15597101499997734,
+       "to_cpu": 0.013310466999996606,
+       "total": 0.1828567649999968
+      },
+      {
+       "audio_embed": 0.013383918999920752,
+       "dit_vae": 0.15627008199999182,
+       "to_cpu": 0.013350037999998676,
+       "total": 0.18300403899991124
+      },
+      {
+       "audio_embed": 0.013435550000053809,
+       "dit_vae": 0.15630713099994864,
+       "to_cpu": 0.013324728000043251,
+       "total": 0.1830674090000457
+      },
+      {
+       "audio_embed": 0.013647394000031454,
+       "dit_vae": 0.15414987500003008,
+       "to_cpu": 0.013399999999933243,
+       "total": 0.18119726899999478
+      },
+      {
+       "audio_embed": 0.013363418999915666,
+       "dit_vae": 0.15402354200000445,
+       "to_cpu": 0.01344719000007899,
+       "total": 0.1808341509999991
+      },
+      {
+       "audio_embed": 0.013258016000008865,
+       "dit_vae": 0.1544593009999744,
+       "to_cpu": 0.013391920000003665,
+       "total": 0.18110923699998693
+      },
+      {
+       "audio_embed": 0.013224356000023363,
+       "dit_vae": 0.15436189900003683,
+       "to_cpu": 0.013381949999939025,
+       "total": 0.18096820499999922
+      },
+      {
+       "audio_embed": 0.013233405999926617,
+       "dit_vae": 0.1542383170000221,
+       "to_cpu": 0.013355128000057448,
+       "total": 0.18082685100000617
+      },
+      {
+       "audio_embed": 0.013230615999987094,
+       "dit_vae": 0.15424136600006477,
+       "to_cpu": 0.013466781000033734,
+       "total": 0.1809387630000856
+      },
+      {
+       "audio_embed": 0.013187744999981987,
+       "dit_vae": 0.15650170399999297,
+       "to_cpu": 0.013273227000013321,
+       "total": 0.18296267599998828
+      },
+      {
+       "audio_embed": 0.013232345999995232,
+       "dit_vae": 0.154133555000044,
+       "to_cpu": 0.013238246000014442,
+       "total": 0.18060414700005367
+      },
+      {
+       "audio_embed": 0.013201366000089365,
+       "dit_vae": 0.15387478899992857,
+       "to_cpu": 0.013328598000043712,
+       "total": 0.18040475300006165
+      },
+      {
+       "audio_embed": 0.013157933999991656,
+       "dit_vae": 0.15437626000004911,
+       "to_cpu": 0.013406830000008085,
+       "total": 0.18094102400004886
+      },
+      {
+       "audio_embed": 0.01327588599997398,
+       "dit_vae": 0.15354219200003172,
+       "to_cpu": 0.013494081999965601,
+       "total": 0.1803121599999713
+      },
+      {
+       "audio_embed": 0.013279607000072247,
+       "dit_vae": 0.1544484089999969,
+       "to_cpu": 0.013403468999968027,
+       "total": 0.18113148500003717
+      },
+      {
+       "audio_embed": 0.013292546999991828,
+       "dit_vae": 0.1544929699999784,
+       "to_cpu": 0.01338070899998911,
+       "total": 0.18116622599995935
+      },
+      {
+       "audio_embed": 0.013216544999977486,
+       "dit_vae": 0.1540512609999496,
+       "to_cpu": 0.013395519000027889,
+       "total": 0.18066332499995497
+      }
+     ]
+    }
+   ],
+   "min_worker_fps": 131.58768894997536,
+   "max_worker_p95_s": 0.1837439004000771,
+   "agg_fps": 131.58768894997536,
+   "all_realtime": true,
+   "job_wall_s": 256.0770888328552
+  },
+  {
+   "name": "lite_concurrency",
+   "runs": [
+    {
+     "n_workers": 2,
+     "warm_wall_s": 66.11661744117737,
+     "max_mem_used_mib": 12411.0,
+     "mean_util_pct": 67.66666666666667,
+     "workers": [
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 0,
+        "barrier_dir": "/tmp/tmpzynbhjef",
+        "out_json": "/tmp/tmpzynbhjef/out_0.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 0,
+       "t_proc_start": 1794238308.9715545,
+       "import_s": 9.705989360809326,
+       "model_load_s": 5.45147705078125,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 5.291570663452148,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        42.37836197199999,
+        0.17901982500006852,
+        0.2111946979999857,
+        0.24674030900007438,
+        0.23998349800001506,
+        0.23747716599996238
+       ],
+       "ready_s_since_proc_start": 65.5364830493927,
+       "chunks": 30,
+       "first_chunk_s": 0.25943746000007195,
+       "chunk_total_mean_s": 0.24251376133335042,
+       "chunk_total_p50_s": 0.24162917849997712,
+       "chunk_total_p95_s": 0.2529434650999633,
+       "chunk_total_max_s": 0.25943746000007195,
+       "audio_embed_mean_s": 0.017630899733338385,
+       "dit_vae_mean_s": 0.2090270220333385,
+       "to_cpu_mean_s": 0.01585583956667354,
+       "run_wall_s": 7.276651641999933,
+       "sustained_fps": 98.94660833346055,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 1,
+        "barrier_dir": "/tmp/tmpzynbhjef",
+        "out_json": "/tmp/tmpzynbhjef/out_1.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 1,
+       "t_proc_start": 1794238308.9710476,
+       "import_s": 9.706230640411377,
+       "model_load_s": 5.320642709732056,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 5.386994123458862,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        42.74801648799996,
+        0.26913520499999777,
+        0.25031246399998963,
+        0.24686764099999436,
+        0.19427108899992618,
+        0.18905076800001552
+       ],
+       "ready_s_since_proc_start": 65.94633173942566,
+       "chunks": 30,
+       "first_chunk_s": 0.24330737499997213,
+       "chunk_total_mean_s": 0.24141713633333287,
+       "chunk_total_p50_s": 0.2413099214999761,
+       "chunk_total_p95_s": 0.25173289290000295,
+       "chunk_total_max_s": 0.26277125100000376,
+       "audio_embed_mean_s": 0.021608749799994106,
+       "dit_vae_mean_s": 0.2047444658333461,
+       "to_cpu_mean_s": 0.01506392069999265,
+       "run_wall_s": 7.243572823000022,
+       "sustained_fps": 99.39846227732166,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      }
+     ],
+     "min_worker_fps": 98.94660833346055,
+     "max_worker_p95_s": 0.2529434650999633,
+     "agg_fps": 198.34507061078222,
+     "all_realtime": true
+    },
+    {
+     "n_workers": 3,
+     "warm_wall_s": 70.84063148498535,
+     "max_mem_used_mib": 18615.0,
+     "mean_util_pct": 73.56666666666666,
+     "workers": [
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 0,
+        "barrier_dir": "/tmp/tmpijyygje5",
+        "out_json": "/tmp/tmpijyygje5/out_0.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 0,
+       "t_proc_start": 1794238385.4428325,
+       "import_s": 10.520467281341553,
+       "model_load_s": 6.141767501831055,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 5.988285303115845,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        44.11082971099995,
+        0.1917159700000184,
+        0.19538016899991817,
+        0.19469161400002122,
+        0.18150424899999962,
+        0.18068533199993908
+       ],
+       "ready_s_since_proc_start": 69.35357403755188,
+       "chunks": 30,
+       "first_chunk_s": 0.364859636999995,
+       "chunk_total_mean_s": 0.3632100587666628,
+       "chunk_total_p50_s": 0.36579334249995554,
+       "chunk_total_p95_s": 0.37854462550001244,
+       "chunk_total_max_s": 0.3928295439999374,
+       "audio_embed_mean_s": 0.026352115333338588,
+       "dit_vae_mean_s": 0.31805099370000106,
+       "to_cpu_mean_s": 0.018806949733323107,
+       "run_wall_s": 10.898175933000061,
+       "sustained_fps": 66.06610174275262,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 1,
+        "barrier_dir": "/tmp/tmpijyygje5",
+        "out_json": "/tmp/tmpijyygje5/out_1.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 1,
+       "t_proc_start": 1794238385.4428942,
+       "import_s": 10.520519971847534,
+       "model_load_s": 6.102606296539307,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 5.856579303741455,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        45.45627526999999,
+        0.18093102500006353,
+        0.17817833799995242,
+        0.1780003740000211,
+        0.1771729060000098,
+        0.17704788599996846
+       ],
+       "ready_s_since_proc_start": 70.61540174484253,
+       "chunks": 30,
+       "first_chunk_s": 0.37193754400004764,
+       "chunk_total_mean_s": 0.3646822954666618,
+       "chunk_total_p50_s": 0.36595623700003443,
+       "chunk_total_p95_s": 0.3802508267999826,
+       "chunk_total_max_s": 0.3876503359999788,
+       "audio_embed_mean_s": 0.02689051739999589,
+       "dit_vae_mean_s": 0.3038437466000043,
+       "to_cpu_mean_s": 0.03394803146666163,
+       "run_wall_s": 10.944598931000087,
+       "sustained_fps": 65.78587342845722,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 2,
+        "barrier_dir": "/tmp/tmpijyygje5",
+        "out_json": "/tmp/tmpijyygje5/out_2.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 2,
+       "t_proc_start": 1794238385.4427316,
+       "import_s": 10.519392490386963,
+       "model_load_s": 6.120405197143555,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 5.844083786010742,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        43.06346351399998,
+        0.19309906799992405,
+        0.18807647100004488,
+        0.17997187100002066,
+        0.17651482899998427,
+        0.17600364800000534
+       ],
+       "ready_s_since_proc_start": 68.2349739074707,
+       "chunks": 30,
+       "first_chunk_s": 0.3735770890000367,
+       "chunk_total_mean_s": 0.3648106452333309,
+       "chunk_total_p50_s": 0.3648785459999999,
+       "chunk_total_p95_s": 0.3781522646499638,
+       "chunk_total_max_s": 0.3794411600000558,
+       "audio_embed_mean_s": 0.025538481233335613,
+       "dit_vae_mean_s": 0.30581910863332573,
+       "to_cpu_mean_s": 0.03345305536666956,
+       "run_wall_s": 10.94651207100003,
+       "sustained_fps": 65.77437592266992,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      }
+     ],
+     "min_worker_fps": 65.77437592266992,
+     "max_worker_p95_s": 0.3802508267999826,
+     "agg_fps": 197.62635109387978,
+     "all_realtime": true
+    },
+    {
+     "n_workers": 4,
+     "warm_wall_s": 76.79760813713074,
+     "max_mem_used_mib": 24818.0,
+     "mean_util_pct": 74.77333333333333,
+     "workers": [
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 0,
+        "barrier_dir": "/tmp/tmp2g9b_wyz",
+        "out_json": "/tmp/tmp2g9b_wyz/out_0.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 0,
+       "t_proc_start": 1794238471.2944858,
+       "import_s": 12.459761619567871,
+       "model_load_s": 7.200535774230957,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 6.871503829956055,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        45.05434236799999,
+        0.25752501099998426,
+        0.24361891099999866,
+        0.25084200199989937,
+        0.24180991299999732,
+        0.2413755329999958
+       ],
+       "ready_s_since_proc_start": 74.99612975120544,
+       "chunks": 30,
+       "first_chunk_s": 0.4511557899999161,
+       "chunk_total_mean_s": 0.46199051789999807,
+       "chunk_total_p50_s": 0.45827819649997537,
+       "chunk_total_p95_s": 0.49818298430004687,
+       "chunk_total_max_s": 0.5239456269999891,
+       "audio_embed_mean_s": 0.03274624176665005,
+       "dit_vae_mean_s": 0.40169401990000325,
+       "to_cpu_mean_s": 0.0275502562333448,
+       "run_wall_s": 13.863171827999963,
+       "sustained_fps": 51.93616648001068,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 1,
+        "barrier_dir": "/tmp/tmp2g9b_wyz",
+        "out_json": "/tmp/tmp2g9b_wyz/out_1.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 1,
+       "t_proc_start": 1794238471.2944915,
+       "import_s": 12.458894968032837,
+       "model_load_s": 7.200496196746826,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 6.886929512023926,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        45.10171613500006,
+        0.23773986900005184,
+        0.2545471890000499,
+        0.24833647900004507,
+        0.2431217990000505,
+        0.20396737499993378
+       ],
+       "ready_s_since_proc_start": 75.11611866950989,
+       "chunks": 30,
+       "first_chunk_s": 0.4510956479999777,
+       "chunk_total_mean_s": 0.4608124538999959,
+       "chunk_total_p50_s": 0.4592059424999775,
+       "chunk_total_p95_s": 0.4944885502999625,
+       "chunk_total_max_s": 0.5004771530000198,
+       "audio_embed_mean_s": 0.034295564666668575,
+       "dit_vae_mean_s": 0.39795598839999685,
+       "to_cpu_mean_s": 0.02856090083333053,
+       "run_wall_s": 13.827540677000002,
+       "sustained_fps": 52.06999688654757,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 2,
+        "barrier_dir": "/tmp/tmp2g9b_wyz",
+        "out_json": "/tmp/tmp2g9b_wyz/out_2.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 2,
+       "t_proc_start": 1794238471.2947626,
+       "import_s": 12.45836067199707,
+       "model_load_s": 7.270950078964233,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 7.056429624557495,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        46.903778407999994,
+        0.2168414650000159,
+        0.22121359700008725,
+        0.1843103669999664,
+        0.16380215100002715,
+        0.16395988399995076
+       ],
+       "ready_s_since_proc_start": 76.70451498031616,
+       "chunks": 30,
+       "first_chunk_s": 0.4136875080000664,
+       "chunk_total_mean_s": 0.4550352971666636,
+       "chunk_total_p50_s": 0.4515447664999783,
+       "chunk_total_p95_s": 0.49253702050000925,
+       "chunk_total_max_s": 0.49829299499992885,
+       "audio_embed_mean_s": 0.03444867100000314,
+       "dit_vae_mean_s": 0.4113072757999968,
+       "to_cpu_mean_s": 0.009279350366663644,
+       "run_wall_s": 13.653853390999984,
+       "sustained_fps": 52.73236641566638,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 3,
+        "barrier_dir": "/tmp/tmp2g9b_wyz",
+        "out_json": "/tmp/tmp2g9b_wyz/out_3.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 3,
+       "t_proc_start": 1794238471.2984014,
+       "import_s": 12.465133666992188,
+       "model_load_s": 7.204838991165161,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 6.794403314590454,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        46.598392528999966,
+        0.18932634999998754,
+        0.18177731200000835,
+        0.22712891800006219,
+        0.2189649190000864,
+        0.23016205199996875
+       ],
+       "ready_s_since_proc_start": 76.30729460716248,
+       "chunks": 30,
+       "first_chunk_s": 0.44719313600000987,
+       "chunk_total_mean_s": 0.46194082123334207,
+       "chunk_total_p50_s": 0.4573443769999699,
+       "chunk_total_p95_s": 0.5130720242000052,
+       "chunk_total_max_s": 0.5284887239999989,
+       "audio_embed_mean_s": 0.03430602393333023,
+       "dit_vae_mean_s": 0.3925071009333389,
+       "to_cpu_mean_s": 0.03512769636667296,
+       "run_wall_s": 13.860144083999899,
+       "sustained_fps": 51.947511918809376,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      }
+     ],
+     "min_worker_fps": 51.93616648001068,
+     "max_worker_p95_s": 0.5130720242000052,
+     "agg_fps": 208.686041701034,
+     "all_realtime": true
+    },
+    {
+     "n_workers": 5,
+     "warm_wall_s": 79.2059371471405,
+     "max_mem_used_mib": 31022.0,
+     "mean_util_pct": 80.0,
+     "workers": [
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 0,
+        "barrier_dir": "/tmp/tmp5_hlq2g7",
+        "out_json": "/tmp/tmp5_hlq2g7/out_0.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 0,
+       "t_proc_start": 1794238566.8867493,
+       "import_s": 13.774181127548218,
+       "model_load_s": 7.610615968704224,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 7.532031297683716,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        46.23411956699999,
+        0.28669754199995623,
+        0.25799040200001855,
+        0.2140666309999233,
+        0.22884077399999114,
+        0.2233012870000266
+       ],
+       "ready_s_since_proc_start": 78.8370840549469,
+       "chunks": 30,
+       "first_chunk_s": 0.49832933400000456,
+       "chunk_total_mean_s": 0.5114026117666602,
+       "chunk_total_p50_s": 0.5129358399999546,
+       "chunk_total_p95_s": 0.5193741731500381,
+       "chunk_total_max_s": 0.5267415099999653,
+       "audio_embed_mean_s": 0.03783944883333182,
+       "dit_vae_mean_s": 0.4652660490000017,
+       "to_cpu_mean_s": 0.008297113933326727,
+       "run_wall_s": 15.343871641999954,
+       "sustained_fps": 46.9242715788356,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 1,
+        "barrier_dir": "/tmp/tmp5_hlq2g7",
+        "out_json": "/tmp/tmp5_hlq2g7/out_1.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 1,
+       "t_proc_start": 1794238566.8916337,
+       "import_s": 13.76859998703003,
+       "model_load_s": 7.619726896286011,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 7.634622573852539,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        43.444459277999954,
+        0.17774336100001165,
+        0.16890693999994255,
+        0.16804766100005963,
+        0.17353136799999902,
+        0.2123215120000168
+       ],
+       "ready_s_since_proc_start": 75.85809993743896,
+       "chunks": 30,
+       "first_chunk_s": 0.4931842350000579,
+       "chunk_total_mean_s": 0.5115693896333482,
+       "chunk_total_p50_s": 0.5129905669999744,
+       "chunk_total_p95_s": 0.5213053490000504,
+       "chunk_total_max_s": 0.5260464950000596,
+       "audio_embed_mean_s": 0.036186444900007095,
+       "dit_vae_mean_s": 0.4654103883999937,
+       "to_cpu_mean_s": 0.009972556333347407,
+       "run_wall_s": 15.348611732999984,
+       "sustained_fps": 46.90978001951655,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 2,
+        "barrier_dir": "/tmp/tmp5_hlq2g7",
+        "out_json": "/tmp/tmp5_hlq2g7/out_2.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 2,
+       "t_proc_start": 1794238566.8875258,
+       "import_s": 13.772695302963257,
+       "model_load_s": 7.661350727081299,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 7.578570127487183,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        45.65465576000008,
+        0.17006707599989568,
+        0.166082418999963,
+        0.16586636499994256,
+        0.253008477000094,
+        0.3221364659999608
+       ],
+       "ready_s_since_proc_start": 78.12051725387573,
+       "chunks": 30,
+       "first_chunk_s": 0.5175346820000186,
+       "chunk_total_mean_s": 0.5120801198000057,
+       "chunk_total_p50_s": 0.513950166499967,
+       "chunk_total_p95_s": 0.5217054599500728,
+       "chunk_total_max_s": 0.5261984500000381,
+       "audio_embed_mean_s": 0.04357346193334024,
+       "dit_vae_mean_s": 0.45869823289999656,
+       "to_cpu_mean_s": 0.009808424966668857,
+       "run_wall_s": 15.367194618999974,
+       "sustained_fps": 46.85305404473717,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 3,
+        "barrier_dir": "/tmp/tmp5_hlq2g7",
+        "out_json": "/tmp/tmp5_hlq2g7/out_3.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 3,
+       "t_proc_start": 1794238566.8915358,
+       "import_s": 13.769038677215576,
+       "model_load_s": 7.5801146030426025,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 7.655115604400635,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        44.26373446399998,
+        0.2014978010000732,
+        0.17537283599995135,
+        0.17455060999998295,
+        0.17709837699999298,
+        0.1713065330000063
+       ],
+       "ready_s_since_proc_start": 76.56777858734131,
+       "chunks": 30,
+       "first_chunk_s": 0.49943859799998336,
+       "chunk_total_mean_s": 0.511399259099998,
+       "chunk_total_p50_s": 0.51302708999998,
+       "chunk_total_p95_s": 0.5184816637500376,
+       "chunk_total_max_s": 0.5265159549999225,
+       "audio_embed_mean_s": 0.03720702783333536,
+       "dit_vae_mean_s": 0.46445507399999236,
+       "to_cpu_mean_s": 0.009737157266670238,
+       "run_wall_s": 15.343606106999914,
+       "sustained_fps": 46.925083645853526,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 4,
+        "barrier_dir": "/tmp/tmp5_hlq2g7",
+        "out_json": "/tmp/tmp5_hlq2g7/out_4.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 4,
+       "t_proc_start": 1794238566.8905911,
+       "import_s": 13.769600629806519,
+       "model_load_s": 7.701701641082764,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 7.872469186782837,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        46.10966951099999,
+        0.3223531499999126,
+        0.2616953030000104,
+        0.2407097770000064,
+        0.24291992400003437,
+        0.18823406100000284
+       ],
+       "ready_s_since_proc_start": 79.03618502616882,
+       "chunks": 30,
+       "first_chunk_s": 0.5291287689999535,
+       "chunk_total_mean_s": 0.5124269138999958,
+       "chunk_total_p50_s": 0.5119643405000147,
+       "chunk_total_p95_s": 0.5220640058499612,
+       "chunk_total_max_s": 0.5291287689999535,
+       "audio_embed_mean_s": 0.04033065186665681,
+       "dit_vae_mean_s": 0.4543637318666735,
+       "to_cpu_mean_s": 0.017732530166665584,
+       "run_wall_s": 15.373949939999989,
+       "sustained_fps": 46.83246679024899,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      }
+     ],
+     "min_worker_fps": 46.83246679024899,
+     "max_worker_p95_s": 0.5220640058499612,
+     "agg_fps": 234.44465607919184,
+     "all_realtime": true
+    },
+    {
+     "n_workers": 6,
+     "warm_wall_s": 93.93816900253296,
+     "max_mem_used_mib": 37225.0,
+     "mean_util_pct": 84.25263157894737,
+     "workers": [
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 0,
+        "barrier_dir": "/tmp/tmpl_xi79xf",
+        "out_json": "/tmp/tmpl_xi79xf/out_0.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 0,
+       "t_proc_start": 1794238665.5937717,
+       "import_s": 15.964166164398193,
+       "model_load_s": 15.452506303787231,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 8.30472993850708,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        49.388855303000014,
+        0.4583786800000098,
+        0.430751631000021,
+        0.44239184599996406,
+        0.43778263000001516,
+        0.30087639700002455
+       ],
+       "ready_s_since_proc_start": 93.73719263076782,
+       "chunks": 30,
+       "first_chunk_s": 0.6696797020000531,
+       "chunk_total_mean_s": 0.6632810259000015,
+       "chunk_total_p50_s": 0.6642282970001361,
+       "chunk_total_p95_s": 0.6899212186499881,
+       "chunk_total_max_s": 0.7059057000000166,
+       "audio_embed_mean_s": 0.04603523886665547,
+       "dit_vae_mean_s": 0.590229482966682,
+       "to_cpu_mean_s": 0.027016304066664058,
+       "run_wall_s": 19.900641789999895,
+       "sustained_fps": 36.17973769880131,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 1,
+        "barrier_dir": "/tmp/tmpl_xi79xf",
+        "out_json": "/tmp/tmpl_xi79xf/out_1.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 1,
+       "t_proc_start": 1794238665.5931883,
+       "import_s": 15.884016513824463,
+       "model_load_s": 15.447505474090576,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 8.28375792503357,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        49.388079074000075,
+        0.4693132869999772,
+        0.45567368299998634,
+        0.4620781869999746,
+        0.4322963659999459,
+        0.32980401000008897
+       ],
+       "ready_s_since_proc_start": 93.72029781341553,
+       "chunks": 30,
+       "first_chunk_s": 0.6806223999999474,
+       "chunk_total_mean_s": 0.665330237600036,
+       "chunk_total_p50_s": 0.6673972670000126,
+       "chunk_total_p95_s": 0.6890028872999948,
+       "chunk_total_max_s": 0.708704877999935,
+       "audio_embed_mean_s": 0.04542226330001616,
+       "dit_vae_mean_s": 0.5846438635999751,
+       "to_cpu_mean_s": 0.03526411070004466,
+       "run_wall_s": 19.962204995999855,
+       "sustained_fps": 36.06815981221904,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 2,
+        "barrier_dir": "/tmp/tmpl_xi79xf",
+        "out_json": "/tmp/tmpl_xi79xf/out_2.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 2,
+       "t_proc_start": 1794238665.5941777,
+       "import_s": 15.899812936782837,
+       "model_load_s": 15.427553415298462,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 8.351220846176147,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        49.07463766799992,
+        0.24323696700002984,
+        0.45397347799996624,
+        0.42470573699995384,
+        0.44946715399998993,
+        0.4385990279999987
+       ],
+       "ready_s_since_proc_start": 93.3945152759552,
+       "chunks": 30,
+       "first_chunk_s": 0.6530697349999173,
+       "chunk_total_mean_s": 0.6584440887999828,
+       "chunk_total_p50_s": 0.6598458380000807,
+       "chunk_total_p95_s": 0.6703196440000283,
+       "chunk_total_max_s": 0.6766998309999508,
+       "audio_embed_mean_s": 0.04184716889998678,
+       "dit_vae_mean_s": 0.5891879300333244,
+       "to_cpu_mean_s": 0.027408989866671618,
+       "run_wall_s": 19.755355756000085,
+       "sustained_fps": 36.44581291740707,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 3,
+        "barrier_dir": "/tmp/tmpl_xi79xf",
+        "out_json": "/tmp/tmpl_xi79xf/out_3.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 3,
+       "t_proc_start": 1794238665.593352,
+       "import_s": 15.891967535018921,
+       "model_load_s": 15.502805709838867,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 8.16896939277649,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        49.42671073700001,
+        0.4258624899999859,
+        0.4319908890000761,
+        0.4553858680000076,
+        0.43626180900002964,
+        0.35608307699999386
+       ],
+       "ready_s_since_proc_start": 93.68386316299438,
+       "chunks": 30,
+       "first_chunk_s": 0.6193973220000544,
+       "chunk_total_mean_s": 0.6578684206333416,
+       "chunk_total_p50_s": 0.6596807029999923,
+       "chunk_total_p95_s": 0.6736341898500143,
+       "chunk_total_max_s": 0.6907205129999738,
+       "audio_embed_mean_s": 0.059144915000009256,
+       "dit_vae_mean_s": 0.5829958028000003,
+       "to_cpu_mean_s": 0.015727702833332084,
+       "run_wall_s": 19.738291399000104,
+       "sustained_fps": 36.47732143808929,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 4,
+        "barrier_dir": "/tmp/tmpl_xi79xf",
+        "out_json": "/tmp/tmpl_xi79xf/out_4.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 4,
+       "t_proc_start": 1794238665.5951598,
+       "import_s": 15.881888628005981,
+       "model_load_s": 15.485637187957764,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 8.240128755569458,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        46.20253324299995,
+        0.19232095300003493,
+        0.18479805700008,
+        0.1795453779999434,
+        0.17972599200004424,
+        0.17413146499995946
+       ],
+       "ready_s_since_proc_start": 89.25497221946716,
+       "chunks": 30,
+       "first_chunk_s": 0.7073507180000433,
+       "chunk_total_mean_s": 0.6653624008666649,
+       "chunk_total_p50_s": 0.6657889875000933,
+       "chunk_total_p95_s": 0.704065022750035,
+       "chunk_total_max_s": 0.7158288869999296,
+       "audio_embed_mean_s": 0.05671262446666105,
+       "dit_vae_mean_s": 0.595684219333331,
+       "to_cpu_mean_s": 0.012965557066672772,
+       "run_wall_s": 19.96414455599995,
+       "sustained_fps": 36.06465571216343,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 5,
+        "barrier_dir": "/tmp/tmpl_xi79xf",
+        "out_json": "/tmp/tmpl_xi79xf/out_5.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 5,
+       "t_proc_start": 1794238665.5935001,
+       "import_s": 15.884557247161865,
+       "model_load_s": 15.500885725021362,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 7.993658542633057,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        47.33466918499994,
+        0.2018756200000098,
+        0.19467035000002397,
+        0.20123006699998314,
+        0.20547388500006036,
+        0.18879681700002493
+       ],
+       "ready_s_since_proc_start": 90.47183918952942,
+       "chunks": 30,
+       "first_chunk_s": 0.6729958710000119,
+       "chunk_total_mean_s": 0.6652492681666634,
+       "chunk_total_p50_s": 0.6641005339999992,
+       "chunk_total_p95_s": 0.6994392100999335,
+       "chunk_total_max_s": 0.7381637630001023,
+       "audio_embed_mean_s": 0.052658213933348935,
+       "dit_vae_mean_s": 0.5814048886666873,
+       "to_cpu_mean_s": 0.031186165566627247,
+       "run_wall_s": 19.96153255199988,
+       "sustained_fps": 36.06937484005283,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      }
+     ],
+     "min_worker_fps": 36.06465571216343,
+     "max_worker_p95_s": 0.704065022750035,
+     "agg_fps": 217.30506241873297,
+     "all_realtime": true
+    },
+    {
+     "n_workers": 7,
+     "warm_wall_s": 91.9664626121521,
+     "max_mem_used_mib": 43431.0,
+     "mean_util_pct": 84.0,
+     "workers": [
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 0,
+        "barrier_dir": "/tmp/tmprfcw3jnj",
+        "out_json": "/tmp/tmprfcw3jnj/out_0.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 0,
+       "t_proc_start": 1794238783.3749883,
+       "import_s": 16.265958070755005,
+       "model_load_s": 9.443064451217651,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 8.954397201538086,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        51.978753320999886,
+        0.20274352799992812,
+        0.1810232149998683,
+        0.18101459399986197,
+        0.2929219880002165,
+        0.42436332900001617
+       ],
+       "ready_s_since_proc_start": 90.539377450943,
+       "chunks": 30,
+       "first_chunk_s": 0.7924313070000153,
+       "chunk_total_mean_s": 0.8038933044000032,
+       "chunk_total_p50_s": 0.8032992550000699,
+       "chunk_total_p95_s": 0.8407633249000128,
+       "chunk_total_max_s": 0.8493396999999732,
+       "audio_embed_mean_s": 0.05979968770001657,
+       "dit_vae_mean_s": 0.7054760303999804,
+       "to_cpu_mean_s": 0.038617586300006224,
+       "run_wall_s": 24.120834524000202,
+       "sustained_fps": 29.849713503220663,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 1,
+        "barrier_dir": "/tmp/tmprfcw3jnj",
+        "out_json": "/tmp/tmprfcw3jnj/out_1.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 1,
+       "t_proc_start": 1794238783.3748531,
+       "import_s": 16.62736439704895,
+       "model_load_s": 8.838317632675171,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 8.816470384597778,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        50.15487741599986,
+        0.23518409499979498,
+        0.26013983500001814,
+        0.3429753420000452,
+        0.35941190499988807,
+        0.3708583939999244
+       ],
+       "ready_s_since_proc_start": 88.88519024848938,
+       "chunks": 30,
+       "first_chunk_s": 0.7993371610000395,
+       "chunk_total_mean_s": 0.8040716007333609,
+       "chunk_total_p50_s": 0.8017570859999523,
+       "chunk_total_p95_s": 0.8420002663499758,
+       "chunk_total_max_s": 0.8540541900001699,
+       "audio_embed_mean_s": 0.05476485289999952,
+       "dit_vae_mean_s": 0.7154503696333677,
+       "to_cpu_mean_s": 0.03385637819999374,
+       "run_wall_s": 24.12527418700006,
+       "sustained_fps": 29.844220398041035,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 2,
+        "barrier_dir": "/tmp/tmprfcw3jnj",
+        "out_json": "/tmp/tmprfcw3jnj/out_2.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 2,
+       "t_proc_start": 1794238783.3835673,
+       "import_s": 16.301587343215942,
+       "model_load_s": 9.65016508102417,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 8.521982431411743,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        50.27562160399998,
+        0.24235913500001516,
+        0.37999357500007136,
+        0.3590472079999927,
+        0.36126924299992424,
+        0.2786432909999803
+       ],
+       "ready_s_since_proc_start": 89.08647894859314,
+       "chunks": 30,
+       "first_chunk_s": 0.802725910999925,
+       "chunk_total_mean_s": 0.8006096323000141,
+       "chunk_total_p50_s": 0.8040281084998924,
+       "chunk_total_p95_s": 0.8250034148999816,
+       "chunk_total_max_s": 0.8301269510000111,
+       "audio_embed_mean_s": 0.05681232163333334,
+       "dit_vae_mean_s": 0.7099076999666598,
+       "to_cpu_mean_s": 0.033889610700020965,
+       "run_wall_s": 24.021053746999996,
+       "sustained_fps": 29.97370588248741,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 3,
+        "barrier_dir": "/tmp/tmprfcw3jnj",
+        "out_json": "/tmp/tmprfcw3jnj/out_3.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 3,
+       "t_proc_start": 1794238783.3800051,
+       "import_s": 16.62193250656128,
+       "model_load_s": 8.956321954727173,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 8.773671388626099,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        52.72025976300006,
+        0.4380929250000918,
+        0.34340778099999625,
+        0.33955691399978605,
+        0.3396112949999406,
+        0.3242155630000525
+       ],
+       "ready_s_since_proc_start": 91.79807186126709,
+       "chunks": 30,
+       "first_chunk_s": 0.8552057639999475,
+       "chunk_total_mean_s": 0.8045189595333492,
+       "chunk_total_p50_s": 0.8037242655000227,
+       "chunk_total_p95_s": 0.850916430650068,
+       "chunk_total_max_s": 0.8552057639999475,
+       "audio_embed_mean_s": 0.059420641966661,
+       "dit_vae_mean_s": 0.714793756633344,
+       "to_cpu_mean_s": 0.030304560933344268,
+       "run_wall_s": 24.137572142999943,
+       "sustained_fps": 29.829014937146642,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 4,
+        "barrier_dir": "/tmp/tmprfcw3jnj",
+        "out_json": "/tmp/tmprfcw3jnj/out_4.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 4,
+       "t_proc_start": 1794238783.3791754,
+       "import_s": 16.22806191444397,
+       "model_load_s": 9.44396424293518,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 8.594555377960205,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        52.886011541000016,
+        0.44322338200004197,
+        0.3453393510001206,
+        0.32534729799999695,
+        0.34287260300015987,
+        0.31375286399998004
+       ],
+       "ready_s_since_proc_start": 91.8174774646759,
+       "chunks": 30,
+       "first_chunk_s": 0.8112151070001801,
+       "chunk_total_mean_s": 0.8041110914666888,
+       "chunk_total_p50_s": 0.8033912760000703,
+       "chunk_total_p95_s": 0.8332429993501591,
+       "chunk_total_max_s": 0.8355364730000474,
+       "audio_embed_mean_s": 0.0562123776666643,
+       "dit_vae_mean_s": 0.7067158458666881,
+       "to_cpu_mean_s": 0.04118286793333634,
+       "run_wall_s": 24.12709229500001,
+       "sustained_fps": 29.841971473255793,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 5,
+        "barrier_dir": "/tmp/tmprfcw3jnj",
+        "out_json": "/tmp/tmprfcw3jnj/out_5.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 5,
+       "t_proc_start": 1794238783.379186,
+       "import_s": 16.228359699249268,
+       "model_load_s": 9.220155477523804,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 8.836899280548096,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        50.39651104299992,
+        0.3515801220000867,
+        0.35943542600011824,
+        0.3449055230000795,
+        0.2565946009999607,
+        0.22670956799993291
+       ],
+       "ready_s_since_proc_start": 89.3386561870575,
+       "chunks": 30,
+       "first_chunk_s": 0.8089499909999631,
+       "chunk_total_mean_s": 0.8039532449333364,
+       "chunk_total_p50_s": 0.8037972385000103,
+       "chunk_total_p95_s": 0.8356030901000168,
+       "chunk_total_max_s": 0.8448141260000739,
+       "audio_embed_mean_s": 0.055264834600022066,
+       "dit_vae_mean_s": 0.7066967716666568,
+       "to_cpu_mean_s": 0.04199163866665761,
+       "run_wall_s": 24.121238983000012,
+       "sustained_fps": 29.84921299056969,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 6,
+        "barrier_dir": "/tmp/tmprfcw3jnj",
+        "out_json": "/tmp/tmprfcw3jnj/out_6.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 6,
+       "t_proc_start": 1794238783.3800917,
+       "import_s": 16.228015422821045,
+       "model_load_s": 9.586665391921997,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 8.633467674255371,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        52.876236268000184,
+        0.4461259229999541,
+        0.3344402230000014,
+        0.31977289099995687,
+        0.3184140829998796,
+        0.3276637359999768
+       ],
+       "ready_s_since_proc_start": 91.77732610702515,
+       "chunks": 30,
+       "first_chunk_s": 0.7233805380001286,
+       "chunk_total_mean_s": 0.7980896744999958,
+       "chunk_total_p50_s": 0.8010764869999321,
+       "chunk_total_p95_s": 0.8173215549999667,
+       "chunk_total_max_s": 0.8347136730001239,
+       "audio_embed_mean_s": 0.04637229803334624,
+       "dit_vae_mean_s": 0.7375393949333405,
+       "to_cpu_mean_s": 0.014177981533309018,
+       "run_wall_s": 23.94471172800013,
+       "sustained_fps": 30.06926991558042,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      }
+     ],
+     "min_worker_fps": 29.829014937146642,
+     "max_worker_p95_s": 0.850916430650068,
+     "agg_fps": 209.25710910030165,
+     "all_realtime": true
+    },
+    {
+     "n_workers": 8,
+     "warm_wall_s": 94.56998872756958,
+     "max_mem_used_mib": 49635.0,
+     "mean_util_pct": 86.76744186046511,
+     "workers": [
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 0,
+        "barrier_dir": "/tmp/tmpav8ic5x6",
+        "out_json": "/tmp/tmpav8ic5x6/out_0.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 0,
+       "t_proc_start": 1794238904.364411,
+       "import_s": 17.78127884864807,
+       "model_load_s": 10.402881860733032,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 9.07291555404663,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        49.9158471090002,
+        0.4447736370000257,
+        0.4858205360001193,
+        0.47332395500006896,
+        0.46010237000018606,
+        0.47403254099981496
+       ],
+       "ready_s_since_proc_start": 92.9673113822937,
+       "chunks": 30,
+       "first_chunk_s": 0.9268178380000336,
+       "chunk_total_mean_s": 0.9278985374666717,
+       "chunk_total_p50_s": 0.927177153000116,
+       "chunk_total_p95_s": 0.9766148738500646,
+       "chunk_total_max_s": 1.0047728140000345,
+       "audio_embed_mean_s": 0.07266539470000831,
+       "dit_vae_mean_s": 0.8146777454666638,
+       "to_cpu_mean_s": 0.04055539729999964,
+       "run_wall_s": 27.840264150000166,
+       "sustained_fps": 25.86182358474482,
+       "realtime_chunks_frac": 0.8666666666666667,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 1,
+        "barrier_dir": "/tmp/tmpav8ic5x6",
+        "out_json": "/tmp/tmpav8ic5x6/out_1.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 1,
+       "t_proc_start": 1794238904.3646564,
+       "import_s": 17.775376796722412,
+       "model_load_s": 11.741176843643188,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 9.429083585739136,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        51.968241799,
+        0.24184603499998047,
+        0.23922973000003367,
+        0.24194232500008184,
+        0.23578859600002033,
+        0.18580474200007302
+       ],
+       "ready_s_since_proc_start": 94.46202564239502,
+       "chunks": 30,
+       "first_chunk_s": 0.9259438100000352,
+       "chunk_total_mean_s": 0.9286391057999784,
+       "chunk_total_p50_s": 0.9290612794999333,
+       "chunk_total_p95_s": 0.9691772219999961,
+       "chunk_total_max_s": 0.981689035999807,
+       "audio_embed_mean_s": 0.06253280216665189,
+       "dit_vae_mean_s": 0.8269238782999916,
+       "to_cpu_mean_s": 0.03918242533333493,
+       "run_wall_s": 27.861939730999893,
+       "sustained_fps": 25.84170402173794,
+       "realtime_chunks_frac": 0.9,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 2,
+        "barrier_dir": "/tmp/tmpav8ic5x6",
+        "out_json": "/tmp/tmpav8ic5x6/out_2.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 2,
+       "t_proc_start": 1794238904.364847,
+       "import_s": 17.9478440284729,
+       "model_load_s": 11.450737237930298,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 9.47704029083252,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        49.52277006200006,
+        0.532334168000034,
+        0.4612634220000018,
+        0.49923014799992416,
+        0.4662839580000764,
+        0.34612510500005556
+       ],
+       "ready_s_since_proc_start": 93.16412234306335,
+       "chunks": 30,
+       "first_chunk_s": 0.8589527189999444,
+       "chunk_total_mean_s": 0.9292821347666708,
+       "chunk_total_p50_s": 0.9335872674998882,
+       "chunk_total_p95_s": 0.9743828428500023,
+       "chunk_total_max_s": 0.9840234240000427,
+       "audio_embed_mean_s": 0.07486234160001004,
+       "dit_vae_mean_s": 0.8388104385666793,
+       "to_cpu_mean_s": 0.015609354599981392,
+       "run_wall_s": 27.88072215200009,
+       "sustained_fps": 25.824295227171838,
+       "realtime_chunks_frac": 0.9,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 3,
+        "barrier_dir": "/tmp/tmpav8ic5x6",
+        "out_json": "/tmp/tmpav8ic5x6/out_3.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 3,
+       "t_proc_start": 1794238904.3773825,
+       "import_s": 17.765893697738647,
+       "model_load_s": 11.961717367172241,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 10.35386037826538,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        51.28726221599982,
+        0.21880338400001165,
+        0.2397444410000844,
+        0.2375840459999381,
+        0.24186110300001928,
+        0.23868569699993714
+       ],
+       "ready_s_since_proc_start": 94.28023290634155,
+       "chunks": 30,
+       "first_chunk_s": 0.9500762549998854,
+       "chunk_total_mean_s": 0.9283294100666883,
+       "chunk_total_p50_s": 0.9278160189999198,
+       "chunk_total_p95_s": 0.9572067678500161,
+       "chunk_total_max_s": 0.9715916069999366,
+       "audio_embed_mean_s": 0.06271633506669332,
+       "dit_vae_mean_s": 0.8198957941999955,
+       "to_cpu_mean_s": 0.04571728079999957,
+       "run_wall_s": 27.853108537000026,
+       "sustained_fps": 25.849897473510115,
+       "realtime_chunks_frac": 0.9666666666666667,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 4,
+        "barrier_dir": "/tmp/tmpav8ic5x6",
+        "out_json": "/tmp/tmpav8ic5x6/out_4.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 4,
+       "t_proc_start": 1794238904.377101,
+       "import_s": 17.76250195503235,
+       "model_load_s": 10.702628135681152,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 9.047294855117798,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        47.80077290600002,
+        0.23538520800002516,
+        0.19137439800010725,
+        0.1858267719999276,
+        0.1886532690000422,
+        0.1845537740000509
+       ],
+       "ready_s_since_proc_start": 89.20527005195618,
+       "chunks": 30,
+       "first_chunk_s": 0.8429695039999388,
+       "chunk_total_mean_s": 0.9235933717333561,
+       "chunk_total_p50_s": 0.9267138485000714,
+       "chunk_total_p95_s": 0.9433564991500702,
+       "chunk_total_max_s": 0.943733562000034,
+       "audio_embed_mean_s": 0.05044387930001146,
+       "dit_vae_mean_s": 0.8475030627666759,
+       "to_cpu_mean_s": 0.02564642966666876,
+       "run_wall_s": 27.709352435000028,
+       "sustained_fps": 25.984006724406846,
+       "realtime_chunks_frac": 1.0,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 5,
+        "barrier_dir": "/tmp/tmpav8ic5x6",
+        "out_json": "/tmp/tmpav8ic5x6/out_5.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 5,
+       "t_proc_start": 1794238904.3823974,
+       "import_s": 17.756489515304565,
+       "model_load_s": 10.641191005706787,
+       "vram_after_load_gib": 3.999420642852783,
+       "prepare_image_s": 9.633749008178711,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        50.00836176099983,
+        0.5260170660001222,
+        0.456495933000042,
+        0.46010671899989575,
+        0.4626153819999672,
+        0.40466574899983243
+       ],
+       "ready_s_since_proc_start": 93.11701202392578,
+       "chunks": 30,
+       "first_chunk_s": 0.9481110140000055,
+       "chunk_total_mean_s": 0.9293501951666637,
+       "chunk_total_p50_s": 0.9268776065000566,
+       "chunk_total_p95_s": 0.9652100359500764,
+       "chunk_total_max_s": 0.9689367459998266,
+       "audio_embed_mean_s": 0.06312872226665907,
+       "dit_vae_mean_s": 0.8279975855999965,
+       "to_cpu_mean_s": 0.03822388730000815,
+       "run_wall_s": 27.883331977000125,
+       "sustained_fps": 25.821878123959504,
+       "realtime_chunks_frac": 0.8666666666666667,
+       "peak_alloc_gib": 4.884819507598877,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 6,
+        "barrier_dir": "/tmp/tmpav8ic5x6",
+        "out_json": "/tmp/tmpav8ic5x6/out_6.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 6,
+       "t_proc_start": 1794238904.3762505,
+       "import_s": 17.810333490371704,
+       "model_load_s": 10.382380485534668,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 9.20027208328247,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        50.14615544200001,
+        0.5290745790000528,
+        0.4762504960001479,
+        0.4826778909998666,
+        0.47084122399996886,
+        0.4390674889998536
+       ],
+       "ready_s_since_proc_start": 93.02487850189209,
+       "chunks": 30,
+       "first_chunk_s": 0.9435904689999006,
+       "chunk_total_mean_s": 0.9298991435999824,
+       "chunk_total_p50_s": 0.931497911499946,
+       "chunk_total_p95_s": 0.9702060762000769,
+       "chunk_total_max_s": 0.9846644159999869,
+       "audio_embed_mean_s": 0.072162009333321,
+       "dit_vae_mean_s": 0.8213139720000072,
+       "to_cpu_mean_s": 0.036423162266654194,
+       "run_wall_s": 27.899507602999847,
+       "sustained_fps": 25.806907069663954,
+       "realtime_chunks_frac": 0.8333333333333334,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      },
+      {
+       "cfg": {
+        "model": "lite",
+        "image": "/opt/flashhead/examples/girl.png",
+        "audio": "/opt/flashhead/examples/podcast_sichuan_16k.wav",
+        "compile": true,
+        "sage": false,
+        "warmup": 6,
+        "n_chunks": 30,
+        "cache_key": "H100!",
+        "worker_id": 7,
+        "barrier_dir": "/tmp/tmpav8ic5x6",
+        "out_json": "/tmp/tmpav8ic5x6/out_7.json",
+        "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+        "wav2vec_dir": "/weights/wav2vec2-base-960h"
+       },
+       "attn_backend": "flash_attn_2",
+       "worker_id": 7,
+       "t_proc_start": 1794238904.3642497,
+       "import_s": 17.78753113746643,
+       "model_load_s": 10.386909246444702,
+       "vram_after_load_gib": 4.000030994415283,
+       "prepare_image_s": 9.011346578598022,
+       "params": {
+        "sample_rate": 16000,
+        "tgt_fps": 25,
+        "frame_num": 33,
+        "motion_frames_num": 9,
+        "new_frames_per_chunk": 24,
+        "audio_s_per_chunk": 0.96,
+        "cached_audio_duration": 8,
+        "height": 512,
+        "width": 512,
+        "sample_steps": 4
+       },
+       "warmup_chunk_s": [
+        49.464315222000096,
+        0.1914056900000105,
+        0.18051861300000382,
+        0.17991441100002703,
+        0.21121736500003863,
+        0.49768558400000984
+       ],
+       "ready_s_since_proc_start": 91.1129059791565,
+       "chunks": 30,
+       "first_chunk_s": 0.9631816190001246,
+       "chunk_total_mean_s": 0.9280024933333152,
+       "chunk_total_p50_s": 0.9286324324999669,
+       "chunk_total_p95_s": 0.972722692849993,
+       "chunk_total_max_s": 1.0379245299998274,
+       "audio_embed_mean_s": 0.06828017129999656,
+       "dit_vae_mean_s": 0.8189386636666314,
+       "to_cpu_mean_s": 0.04078365836668733,
+       "run_wall_s": 27.843739302999893,
+       "sustained_fps": 25.858595792930263,
+       "realtime_chunks_frac": 0.9,
+       "peak_alloc_gib": 4.885429859161377,
+       "peak_reserved_gib": 5.375
+      }
+     ],
+     "min_worker_fps": 25.806907069663954,
+     "max_worker_p95_s": 0.9766148738500646,
+     "agg_fps": 206.84910801812526,
+     "all_realtime": false
+    }
+   ],
+   "job_wall_s": 722.2500157356262
+  },
+  {
+   "name": "lite_clip_girl_amy",
+   "n_workers": 1,
+   "warm_wall_s": 69.42990827560425,
+   "max_mem_used_mib": 6207.0,
+   "mean_util_pct": 17.633333333333333,
+   "workers": [
+    {
+     "cfg": {
+      "model": "lite",
+      "image": "/opt/flashhead/examples/girl.png",
+      "audio": "/assets/speech_amy.wav",
+      "compile": true,
+      "sage": false,
+      "warmup": 6,
+      "n_chunks": 13,
+      "cache_key": "H100!",
+      "save_video": "/tmp/lite_girl_amy.mp4",
+      "worker_id": 0,
+      "barrier_dir": "/tmp/tmpicmys50f",
+      "out_json": "/tmp/tmpicmys50f/out_0.json",
+      "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+      "wav2vec_dir": "/weights/wav2vec2-base-960h"
+     },
+     "attn_backend": "flash_attn_2",
+     "worker_id": 0,
+     "t_proc_start": 1794239031.2547364,
+     "import_s": 12.115058183670044,
+     "model_load_s": 5.970153570175171,
+     "vram_after_load_gib": 3.999420642852783,
+     "prepare_image_s": 5.225156784057617,
+     "params": {
+      "sample_rate": 16000,
+      "tgt_fps": 25,
+      "frame_num": 33,
+      "motion_frames_num": 9,
+      "new_frames_per_chunk": 24,
+      "audio_s_per_chunk": 0.96,
+      "cached_audio_duration": 8,
+      "height": 512,
+      "width": 512,
+      "sample_steps": 4
+     },
+     "warmup_chunk_s": [
+      43.27165416699995,
+      0.18176516099993023,
+      0.17825707800011514,
+      0.17802610399985497,
+      0.17715637700007392,
+      0.1772826700000678
+     ],
+     "ready_s_since_proc_start": 69.27627229690552,
+     "chunks": 13,
+     "first_chunk_s": 0.18751363299998047,
+     "chunk_total_mean_s": 0.18917730838463215,
+     "chunk_total_p50_s": 0.1891188880001664,
+     "chunk_total_p95_s": 0.19275514179994388,
+     "chunk_total_max_s": 0.19336857400003282,
+     "audio_embed_mean_s": 0.014951603230778905,
+     "dit_vae_mean_s": 0.1535904269230916,
+     "to_cpu_mean_s": 0.020635278230761635,
+     "run_wall_s": 2.4606959689999712,
+     "sustained_fps": 126.79339663680477,
+     "realtime_chunks_frac": 1.0,
+     "peak_alloc_gib": 4.884819507598877,
+     "peak_reserved_gib": 5.375,
+     "timings": [
+      {
+       "audio_embed": 0.01500414199995248,
+       "dit_vae": 0.1537780420001127,
+       "to_cpu": 0.0187314489999153,
+       "total": 0.18751363299998047
+      },
+      {
+       "audio_embed": 0.013993790000085937,
+       "dit_vae": 0.1498406809998869,
+       "to_cpu": 0.021426555000061853,
+       "total": 0.1852610260000347
+      },
+      {
+       "audio_embed": 0.014977541000007477,
+       "dit_vae": 0.1538449639999726,
+       "to_cpu": 0.02101673600009235,
+       "total": 0.18983924100007243
+      },
+      {
+       "audio_embed": 0.01479268699995373,
+       "dit_vae": 0.15325369200013483,
+       "to_cpu": 0.020700880000049438,
+       "total": 0.188747259000138
+      },
+      {
+       "audio_embed": 0.015541483000106382,
+       "dit_vae": 0.15133674300000166,
+       "to_cpu": 0.02056266699992193,
+       "total": 0.18744089300002997
+      },
+      {
+       "audio_embed": 0.01475344599998607,
+       "dit_vae": 0.15323773300019639,
+       "to_cpu": 0.021127708999983952,
+       "total": 0.1891188880001664
+      },
+      {
+       "audio_embed": 0.014709515000049578,
+       "dit_vae": 0.15240653599994403,
+       "to_cpu": 0.021238010999923063,
+       "total": 0.18835406199991667
+      },
+      {
+       "audio_embed": 0.015024332000166396,
+       "dit_vae": 0.15357051899991347,
+       "to_cpu": 0.02110487799996008,
+       "total": 0.18969972900003995
+      },
+      {
+       "audio_embed": 0.015073883000013666,
+       "dit_vae": 0.1574800390001201,
+       "to_cpu": 0.02081465199989907,
+       "total": 0.19336857400003282
+      },
+      {
+       "audio_embed": 0.015466699999933553,
+       "dit_vae": 0.15307237399997575,
+       "to_cpu": 0.021077517000094304,
+       "total": 0.1896165910000036
+      },
+      {
+       "audio_embed": 0.015165113999955793,
+       "dit_vae": 0.1528174489999401,
+       "to_cpu": 0.020621027000061076,
+       "total": 0.18860358999995697
+      },
+      {
+       "audio_embed": 0.015007661000026928,
+       "dit_vae": 0.15320948599992334,
+       "to_cpu": 0.021178189000011116,
+       "total": 0.1893953359999614
+      },
+      {
+       "audio_embed": 0.014860547999887785,
+       "dit_vae": 0.15882729200006906,
+       "to_cpu": 0.018658346999927744,
+       "total": 0.1923461869998846
+      }
+     ],
+     "saved_video": "/tmp/lite_girl_amy.mp4",
+     "saved_frames": 312,
+     "frame_diff_per_sec": [
+      2.0469523111979164,
+      1.8739950561523435,
+      2.1589952596028645,
+      1.5898230997721354,
+      1.8899998474121096,
+      1.7062625122070312,
+      1.2594926452636717,
+      1.2954395039876303,
+      1.6603984069824222,
+      1.7065001424153643,
+      1.4647640991210937,
+      1.5811738077799478,
+      1.4417829802542022
+     ]
+    }
+   ],
+   "min_worker_fps": 126.79339663680477,
+   "max_worker_p95_s": 0.19275514179994388,
+   "agg_fps": 126.79339663680477,
+   "all_realtime": true,
+   "job_wall_s": 76.75147366523743
+  },
+  {
+   "name": "lite_clip_glover_alan",
+   "n_workers": 1,
+   "warm_wall_s": 63.599432706832886,
+   "max_mem_used_mib": 6207.0,
+   "mean_util_pct": 21.46153846153846,
+   "workers": [
+    {
+     "cfg": {
+      "model": "lite",
+      "image": "/assets/glover.png",
+      "audio": "/assets/speech_alan.wav",
+      "compile": true,
+      "sage": false,
+      "warmup": 6,
+      "n_chunks": 13,
+      "cache_key": "H100!",
+      "save_video": "/tmp/lite_glover_alan.mp4",
+      "worker_id": 0,
+      "barrier_dir": "/tmp/tmp6wqqpycs",
+      "out_json": "/tmp/tmp6wqqpycs/out_0.json",
+      "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+      "wav2vec_dir": "/weights/wav2vec2-base-960h"
+     },
+     "attn_backend": "flash_attn_2",
+     "worker_id": 0,
+     "t_proc_start": 1794239107.9850473,
+     "import_s": 7.887173891067505,
+     "model_load_s": 5.251154899597168,
+     "vram_after_load_gib": 3.999420642852783,
+     "prepare_image_s": 4.5698676109313965,
+     "params": {
+      "sample_rate": 16000,
+      "tgt_fps": 25,
+      "frame_num": 33,
+      "motion_frames_num": 9,
+      "new_frames_per_chunk": 24,
+      "audio_s_per_chunk": 0.96,
+      "cached_audio_duration": 8,
+      "height": 512,
+      "width": 512,
+      "sample_steps": 4
+     },
+     "warmup_chunk_s": [
+      43.01113971599989,
+      0.17927840600009404,
+      0.17570014100010667,
+      0.17609906000006958,
+      0.17589906600005634,
+      0.17588893399988592
+     ],
+     "ready_s_since_proc_start": 63.38546562194824,
+     "chunks": 13,
+     "first_chunk_s": 0.17809942899998532,
+     "chunk_total_mean_s": 0.17616720623081725,
+     "chunk_total_p50_s": 0.17604256300000998,
+     "chunk_total_p95_s": 0.17743497520004894,
+     "chunk_total_max_s": 0.17809942899998532,
+     "audio_embed_mean_s": 0.013234634000040248,
+     "dit_vae_mean_s": 0.14949225100003088,
+     "to_cpu_mean_s": 0.013440321230746122,
+     "run_wall_s": 2.2907918539999628,
+     "sustained_fps": 136.19744607316255,
+     "realtime_chunks_frac": 1.0,
+     "peak_alloc_gib": 4.884819507598877,
+     "peak_reserved_gib": 5.375,
+     "timings": [
+      {
+       "audio_embed": 0.013635214000032647,
+       "dit_vae": 0.15124568000010186,
+       "to_cpu": 0.013218534999850817,
+       "total": 0.17809942899998532
+      },
+      {
+       "audio_embed": 0.013428680000060922,
+       "dit_vae": 0.14943029200003366,
+       "to_cpu": 0.013194313999974838,
+       "total": 0.17605328600006942
+      },
+      {
+       "audio_embed": 0.013950171000033151,
+       "dit_vae": 0.14950958300005368,
+       "to_cpu": 0.013532252000004519,
+       "total": 0.17699200600009135
+      },
+      {
+       "audio_embed": 0.012905949000014516,
+       "dit_vae": 0.14931145900004594,
+       "to_cpu": 0.013441900000088935,
+       "total": 0.1756593080001494
+      },
+      {
+       "audio_embed": 0.012940889999981664,
+       "dit_vae": 0.14949313300007816,
+       "to_cpu": 0.01346370900000693,
+       "total": 0.17589773200006675
+      },
+      {
+       "audio_embed": 0.012982168999997157,
+       "dit_vae": 0.1492726550000043,
+       "to_cpu": 0.013420007999911832,
+       "total": 0.1756748319999133
+      },
+      {
+       "audio_embed": 0.012986748999992415,
+       "dit_vae": 0.14880823600014992,
+       "to_cpu": 0.01353928100002122,
+       "total": 0.17533426600016355
+      },
+      {
+       "audio_embed": 0.013004990000126782,
+       "dit_vae": 0.1498241560000224,
+       "to_cpu": 0.01350350999996408,
+       "total": 0.17633265600011327
+      },
+      {
+       "audio_embed": 0.013093431000015698,
+       "dit_vae": 0.14978335599994352,
+       "to_cpu": 0.013450938999994833,
+       "total": 0.17632772599995405
+      },
+      {
+       "audio_embed": 0.013233684000169887,
+       "dit_vae": 0.14980096599992976,
+       "to_cpu": 0.013447228999893923,
+       "total": 0.17648187899999357
+      },
+      {
+       "audio_embed": 0.013190833000180646,
+       "dit_vae": 0.14901915299992652,
+       "to_cpu": 0.013603011999975934,
+       "total": 0.1758129980000831
+      },
+      {
+       "audio_embed": 0.01338033699994412,
+       "dit_vae": 0.14919263700016927,
+       "to_cpu": 0.013469588999896587,
+       "total": 0.17604256300000998
+      },
+      {
+       "audio_embed": 0.013317144999973607,
+       "dit_vae": 0.14870795699994233,
+       "to_cpu": 0.013439898000115136,
+       "total": 0.17546500000003107
+      }
+     ],
+     "saved_video": "/tmp/lite_glover_alan.mp4",
+     "saved_frames": 312,
+     "frame_diff_per_sec": [
+      2.2607433064778646,
+      1.6143744405110676,
+      1.6543049112955728,
+      1.6297679138183594,
+      1.2905976867675781,
+      1.4483243815104165,
+      1.413139394124349,
+      1.4374302673339847,
+      1.604914347330729,
+      1.532228698730469,
+      1.6984722391764324,
+      1.6598866271972657,
+      2.004442157167377
+     ]
+    }
+   ],
+   "min_worker_fps": 136.19744607316255,
+   "max_worker_p95_s": 0.17743497520004894,
+   "agg_fps": 136.19744607316255,
+   "all_realtime": true,
+   "job_wall_s": 69.98145532608032
+  },
+  {
+   "name": "lite_idle_silence",
+   "n_workers": 1,
+   "warm_wall_s": 66.21734046936035,
+   "max_mem_used_mib": 6207.0,
+   "mean_util_pct": 18.88,
+   "workers": [
+    {
+     "cfg": {
+      "model": "lite",
+      "image": "/opt/flashhead/examples/girl.png",
+      "audio": "silence",
+      "compile": true,
+      "sage": false,
+      "warmup": 6,
+      "n_chunks": 11,
+      "cache_key": "H100!",
+      "audio_seconds": 10,
+      "save_video": "/tmp/lite_idle.mp4",
+      "worker_id": 0,
+      "barrier_dir": "/tmp/tmp3k14ixpd",
+      "out_json": "/tmp/tmp3k14ixpd/out_0.json",
+      "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+      "wav2vec_dir": "/weights/wav2vec2-base-960h"
+     },
+     "attn_backend": "flash_attn_2",
+     "worker_id": 0,
+     "t_proc_start": 1794239177.989205,
+     "import_s": 11.474565982818604,
+     "model_load_s": 6.022172451019287,
+     "vram_after_load_gib": 3.999420642852783,
+     "prepare_image_s": 5.183945894241333,
+     "params": {
+      "sample_rate": 16000,
+      "tgt_fps": 25,
+      "frame_num": 33,
+      "motion_frames_num": 9,
+      "new_frames_per_chunk": 24,
+      "audio_s_per_chunk": 0.96,
+      "cached_audio_duration": 8,
+      "height": 512,
+      "width": 512,
+      "sample_steps": 4
+     },
+     "warmup_chunk_s": [
+      42.482797740000024,
+      0.17832026500013853,
+      0.17578422300016427,
+      0.1754566550000618,
+      0.17542265399993084,
+      0.17558539700007714
+     ],
+     "ready_s_since_proc_start": 66.0452516078949,
+     "chunks": 11,
+     "first_chunk_s": 0.18248663100007434,
+     "chunk_total_mean_s": 0.1821166365454329,
+     "chunk_total_p50_s": 0.1793729399998938,
+     "chunk_total_p95_s": 0.19236183850000543,
+     "chunk_total_max_s": 0.1962610579998909,
+     "audio_embed_mean_s": 0.014758046090905324,
+     "dit_vae_mean_s": 0.15371985309089228,
+     "to_cpu_mean_s": 0.0136387373636353,
+     "run_wall_s": 2.003979113000014,
+     "sustained_fps": 131.73790000474827,
+     "realtime_chunks_frac": 1.0,
+     "peak_alloc_gib": 4.836479663848877,
+     "peak_reserved_gib": 5.375,
+     "timings": [
+      {
+       "audio_embed": 0.015192875999900934,
+       "dit_vae": 0.1536352910000005,
+       "to_cpu": 0.013658464000172899,
+       "total": 0.18248663100007434
+      },
+      {
+       "audio_embed": 0.013744046000056187,
+       "dit_vae": 0.15036715299993375,
+       "to_cpu": 0.013304677999940395,
+       "total": 0.17741587699993033
+      },
+      {
+       "audio_embed": 0.013321289000032266,
+       "dit_vae": 0.15015197799993985,
+       "to_cpu": 0.013545862999990277,
+       "total": 0.1770191299999624
+      },
+      {
+       "audio_embed": 0.01414932499983479,
+       "dit_vae": 0.1506229080000594,
+       "to_cpu": 0.01319862600007582,
+       "total": 0.17797085899997
+      },
+      {
+       "audio_embed": 0.01426748799985944,
+       "dit_vae": 0.1508470320000015,
+       "to_cpu": 0.01338955000005626,
+       "total": 0.1785040699999172
+      },
+      {
+       "audio_embed": 0.01361286399992423,
+       "dit_vae": 0.15286740400006238,
+       "to_cpu": 0.013859500000080516,
+       "total": 0.18033976800006712
+      },
+      {
+       "audio_embed": 0.01749612599996908,
+       "dit_vae": 0.1629424420000305,
+       "to_cpu": 0.01582248999989133,
+       "total": 0.1962610579998909
+      },
+      {
+       "audio_embed": 0.016122666000001118,
+       "dit_vae": 0.1580169549999937,
+       "to_cpu": 0.013325797999868882,
+       "total": 0.1874654189998637
+      },
+      {
+       "audio_embed": 0.015488393000168799,
+       "dit_vae": 0.15964330799988602,
+       "to_cpu": 0.01333091800006514,
+       "total": 0.18846261900011996
+      },
+      {
+       "audio_embed": 0.01471581700002389,
+       "dit_vae": 0.15142868699990686,
+       "to_cpu": 0.01322843599996304,
+       "total": 0.1793729399998938
+      },
+      {
+       "audio_embed": 0.01422761700018782,
+       "dit_vae": 0.15039522600000055,
+       "to_cpu": 0.013361787999883745,
+       "total": 0.1779846310000721
+      }
+     ],
+     "saved_video": "/tmp/lite_idle.mp4",
+     "saved_frames": 264,
+     "frame_diff_per_sec": [
+      1.5259541829427081,
+      1.1997493489583335,
+      1.154173329671224,
+      1.0770473225911459,
+      1.0323020935058593,
+      1.0253583272298177,
+      0.9841596476236978,
+      1.0406838989257812,
+      1.0191067504882814,
+      0.9817797342936199,
+      0.9826418558756509
+     ]
+    }
+   ],
+   "min_worker_fps": 131.73790000474827,
+   "max_worker_p95_s": 0.19236183850000543,
+   "agg_fps": 131.73790000474827,
+   "all_realtime": true,
+   "job_wall_s": 72.29650211334229
+  },
+  {
+   "name": "lite_speech_then_silence",
+   "n_workers": 1,
+   "warm_wall_s": 66.6265811920166,
+   "max_mem_used_mib": 6207.0,
+   "mean_util_pct": 23.636363636363637,
+   "workers": [
+    {
+     "cfg": {
+      "model": "lite",
+      "image": "/assets/glover.png",
+      "audio": "/assets/speech_alan.wav+silence:6",
+      "compile": true,
+      "sage": false,
+      "warmup": 6,
+      "n_chunks": 20,
+      "cache_key": "H100!",
+      "save_video": "/tmp/lite_speech_then_idle.mp4",
+      "worker_id": 0,
+      "barrier_dir": "/tmp/tmp42ztjvzt",
+      "out_json": "/tmp/tmp42ztjvzt/out_0.json",
+      "ckpt_dir": "/weights/SoulX-FlashHead-1_3B",
+      "wav2vec_dir": "/weights/wav2vec2-base-960h"
+     },
+     "attn_backend": "flash_attn_2",
+     "worker_id": 0,
+     "t_proc_start": 1794239250.2873223,
+     "import_s": 9.504804134368896,
+     "model_load_s": 5.873691558837891,
+     "vram_after_load_gib": 3.999420642852783,
+     "prepare_image_s": 5.074474811553955,
+     "params": {
+      "sample_rate": 16000,
+      "tgt_fps": 25,
+      "frame_num": 33,
+      "motion_frames_num": 9,
+      "new_frames_per_chunk": 24,
+      "audio_s_per_chunk": 0.96,
+      "cached_audio_duration": 8,
+      "height": 512,
+      "width": 512,
+      "sample_steps": 4
+     },
+     "warmup_chunk_s": [
+      43.39402590499981,
+      0.1878365530001247,
+      0.18685258200002863,
+      0.18611142700001437,
+      0.1855456809998941,
+      0.1864568840001084
+     ],
+     "ready_s_since_proc_start": 66.39099311828613,
+     "chunks": 20,
+     "first_chunk_s": 0.18457721499999025,
+     "chunk_total_mean_s": 0.1832765215999757,
+     "chunk_total_p50_s": 0.18302272350013027,
+     "chunk_total_p95_s": 0.18700485350019563,
+     "chunk_total_max_s": 0.187304739999945,
+     "audio_embed_mean_s": 0.014720073499961472,
+     "dit_vae_mean_s": 0.155313855050008,
+     "to_cpu_mean_s": 0.013242593050006236,
+     "run_wall_s": 3.666598817000022,
+     "sustained_fps": 130.9115133552385,
+     "realtime_chunks_frac": 1.0,
+     "peak_alloc_gib": 4.884819507598877,
+     "peak_reserved_gib": 5.375,
+     "timings": [
+      {
+       "audio_embed": 0.014590281999971921,
+       "dit_vae": 0.15640167100013969,
+       "to_cpu": 0.01358526199987864,
+       "total": 0.18457721499999025
+      },
+      {
+       "audio_embed": 0.014286245999983294,
+       "dit_vae": 0.1543273979998503,
+       "to_cpu": 0.013269476000004943,
+       "total": 0.18188311999983853
+      },
+      {
+       "audio_embed": 0.01397991999988335,
+       "dit_vae": 0.15387101600003916,
+       "to_cpu": 0.013177452000036283,
+       "total": 0.1810283879999588
+      },
+      {
+       "audio_embed": 0.014336255999978675,
+       "dit_vae": 0.1551228920000085,
+       "to_cpu": 0.013131931000089025,
+       "total": 0.1825910790000762
+      },
+      {
+       "audio_embed": 0.014000108999880467,
+       "dit_vae": 0.15312783100011984,
+       "to_cpu": 0.013275133999968602,
+       "total": 0.1804030739999689
+      },
+      {
+       "audio_embed": 0.013880615999823931,
+       "dit_vae": 0.15384515699997792,
+       "to_cpu": 0.013111950000165962,
+       "total": 0.1808377229999678
+      },
+      {
+       "audio_embed": 0.014425527999947008,
+       "dit_vae": 0.15423721399997703,
+       "to_cpu": 0.01313323199997285,
+       "total": 0.1817959739998969
+      },
+      {
+       "audio_embed": 0.014007818999971278,
+       "dit_vae": 0.15363762200013298,
+       "to_cpu": 0.01334437499986052,
+       "total": 0.18098981599996478
+      },
+      {
+       "audio_embed": 0.013880536999977267,
+       "dit_vae": 0.15558283399991524,
+       "to_cpu": 0.013334395999891058,
+       "total": 0.18279776699978356
+      },
+      {
+       "audio_embed": 0.017589812999858623,
+       "dit_vae": 0.15387643999997636,
+       "to_cpu": 0.013170592000051329,
+       "total": 0.1846368449998863
+      },
+      {
+       "audio_embed": 0.014675653000040256,
+       "dit_vae": 0.15357300400000895,
+       "to_cpu": 0.01314104099992619,
+       "total": 0.1813896979999754
+      },
+      {
+       "audio_embed": 0.014716192999912892,
+       "dit_vae": 0.15665095800000017,
+       "to_cpu": 0.013314654999931008,
+       "total": 0.18468180599984407
+      },
+      {
+       "audio_embed": 0.018553162999978667,
+       "dit_vae": 0.1555180539999128,
+       "to_cpu": 0.013233523000053538,
+       "total": 0.187304739999945
+      },
+      {
+       "audio_embed": 0.014229884000087623,
+       "dit_vae": 0.15678419899995788,
+       "to_cpu": 0.013134610999941287,
+       "total": 0.1841486939999868
+      },
+      {
+       "audio_embed": 0.014599920999899041,
+       "dit_vae": 0.1565057320001415,
+       "to_cpu": 0.013185891999910382,
+       "total": 0.18429154499995093
+      },
+      {
+       "audio_embed": 0.014539480000166805,
+       "dit_vae": 0.15934894999986682,
+       "to_cpu": 0.01310064000017519,
+       "total": 0.1869890700002088
+      },
+      {
+       "audio_embed": 0.014737663999994766,
+       "dit_vae": 0.1572030749998703,
+       "to_cpu": 0.013204223000002457,
+       "total": 0.18514496199986752
+      },
+      {
+       "audio_embed": 0.015166313000008813,
+       "dit_vae": 0.15552200100000846,
+       "to_cpu": 0.013305155000125524,
+       "total": 0.1839934690001428
+      },
+      {
+       "audio_embed": 0.01407720099996368,
+       "dit_vae": 0.15553321100014728,
+       "to_cpu": 0.013346745000035298,
+       "total": 0.18295715700014625
+      },
+      {
+       "audio_embed": 0.014128871999901094,
+       "dit_vae": 0.15560784200010858,
+       "to_cpu": 0.013351576000104615,
+       "total": 0.18308829000011428
+      }
+     ],
+     "saved_video": "/tmp/lite_speech_then_idle.mp4",
+     "saved_frames": 480,
+     "frame_diff_per_sec": [
+      2.25846430460612,
+      1.6347511291503907,
+      1.657647196451823,
+      1.6142947896321616,
+      1.2837664286295571,
+      1.4729254659016926,
+      1.3829266866048175,
+      1.4430824788411458,
+      1.4986897277832032,
+      1.484053751627604,
+      1.709505818684896,
+      1.664665985107422,
+      1.1879339090983074,
+      1.1300623067220052,
+      1.1092892964680992,
+      1.088036600748698,
+      1.0640597534179688,
+      1.030651601155599,
+      1.7266761271158853,
+      1.3235530853271484
+     ]
+    }
+   ],
+   "min_worker_fps": 130.9115133552385,
+   "max_worker_p95_s": 0.18700485350019563,
+   "agg_fps": 130.9115133552385,
+   "all_realtime": true,
+   "job_wall_s": 74.69185996055603
+  }
+ ]
+}

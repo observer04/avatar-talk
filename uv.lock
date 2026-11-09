@@ -11,6 +11,7 @@ members = [
     "avatar-agent",
     "avatar-api",
     "avatar-core",
+    "avatar-flashhead",
     "avatar-talk",
 ]
 
@@ -301,6 +302,23 @@ requires-dist = [
     { name = "sentry-sdk", marker = "extra == 'sentry'", specifier = ">=2.20" },
 ]
 provides-extras = ["sentry"]
+
+[[package]]
+name = "avatar-flashhead"
+version = "0.1.0"
+source = { editable = "services/avatar_flashhead" }
+dependencies = [
+    { name = "aiohttp" },
+    { name = "livekit-agents" },
+    { name = "numpy" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "aiohttp", specifier = ">=3.10" },
+    { name = "livekit-agents", specifier = ">=1.8,<2" },
+    { name = "numpy", specifier = ">=1.26" },
+]
 
 [[package]]
 name = "avatar-talk"

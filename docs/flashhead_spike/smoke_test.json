@@ -1,0 +1,24 @@
+{
+  "room": "flashhead-smoke-8c878828",
+  "launch_url": "https://observer04--avatar-talk-flashhead-web.us-east.modal.run",
+  "join_seconds": 26.72,
+  "video_track_published": true,
+  "audio_sent_seconds": 60.0,
+  "playback_started_after_launch_s": 28.93,
+  "playback_position": 60.48,
+  "interrupted": false,
+  "video": {
+    "frames": 1446,
+    "fps": 21.41,
+    "size": [512, 512],
+    "first_frame_after_launch_s": 28.35,
+    "measured_seconds": 67.5
+  },
+  "audio_received": {
+    "seconds": 68.78,
+    "measured_seconds": 68.71,
+    "realtime_ratio": 1.001
+  },
+  "ok": false,
+  "note": "Cloud-side subscriber in us-east; worker-side AVSynchronizer avg ~23 fps (see docs/flashhead_spike.md)."
+}

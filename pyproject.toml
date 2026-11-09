@@ -4,7 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.12,<3.14"
 
 [tool.uv.workspace]
-members = ["packages/core", "services/agent", "services/api"]
+members = ["packages/core", "services/agent", "services/api", "services/avatar_flashhead"]
 
 [tool.uv]
 package = false
@@ -15,7 +15,12 @@ dev = ["pytest>=8", "pytest-asyncio>=1.0", "ruff>=0.12", "httpx>=0.28"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 asyncio_default_fixture_loop_scope = "function"
-testpaths = ["packages/core/tests", "services/agent/tests", "services/api/tests"]
+testpaths = [
+    "packages/core/tests",
+    "services/agent/tests",
+    "services/api/tests",
+    "services/avatar_flashhead/tests",
+]
 
 [tool.ruff]
 line-length = 120
