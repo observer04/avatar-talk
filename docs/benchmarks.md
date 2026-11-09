@@ -74,3 +74,31 @@ Two synthetic calls (direct dispatch, preset face `bf13113a-…` "Anna", Groq `g
 The avatar published lip-synced audio+video for the whole ~113 s session; the agent's cost model put avatar time at ≈$0.09 (≈$0.05/min, so the free minutes ≈ $10 of credit). The avatar adds ≈2.3 s to session start and ≈0.5 s per turn.
 
 **Turns 3–4 failed in both runs — Cartesia, not Simli.** TTS synthesis returned no audio; the underlying error is HTTP 402 `Model credits limit reached` — the Cartesia account is out of credits (confirmed with a direct API probe). The LLM answers existed; only synthesis failed. Until Cartesia is topped up or a TTS fallback is wired in, sessions lose audio after ~2 turns.
+
+### TTS fallback (Deepgram Aura-2)
+
+Wired on 2026-11-10: `make_tts` still builds the persona's voice first (Cartesia `sonic-3`), then appends the global `TTS_FALLBACKS` chain (default `deepgram/aura-2-andromeda-en`) and wraps both in `livekit.agents.tts.FallbackAdapter`. A misconfigured ref is logged and skipped, like the LLM chain. For Aura-2 the voice is the model name, so `deepgram/aura-2-thalia-en` etc. work without a separate voice id. The fallback voice differs from the persona voice; Cartesia stays primary pending a top-up.
+
+The synthetic caller's own questions also fall back to Deepgram now (48 kHz `linear16`): the monitor container has no `~/.cache/avatar_talk/synth`, so its Cartesia-synthesised questions were failing with the same 402 before the agent was ever reached.
+
+End-to-end, direct dispatch, Groq `gpt-oss-120b`:
+
+| Metric | Voice only | Simli avatar (run 1) | Simli avatar (run 2) |
+| --- | --- | --- | --- |
+| join → greeting | 3.53 s | 6.39 s | 7.64 s |
+| tool turn → first audio | 1.72 s | 3.46 s | 1.34 s |
+| plain turn → first audio | 2.39 s | 4.86 s | 2.54 s |
+| barge-in (heard) | 1.68 s | not measured* | not measured* |
+| turns with audio | 4/4 | 4/4 | 4/4 |
+| agent e2e avg | 1.61 s | 1.83 s | 1.07 s |
+| TTS TTFB | 0.13–0.21 s | 0.05–0.14 s | 0.14 s |
+| avatar video | — | 6.7 fps, 768×768 | 15.6 fps, 768×768 |
+| avatar first frame | — | 8.74 s | 7.87 s |
+
+\* The story reply ended (or paused below the caller's loudness threshold) before the scripted 3 s barge window, so the caller did not record a barge-in number in either avatar run. Voice-only and the monitor both measured it.
+
+Every session starts with a Cartesia 402 (`Invalid response status`, `status_code=402`, `retryable=False`); the log then shows `cartesia.tts.TTS error, switching to next TTS` and Deepgram serves the audio. The adapter's background recovery probes keep hitting the same 402 until the account is topped up, which is harmless but noisy.
+
+The avatar fps is below the 24.9 fps measured in the earlier preset-face run. Run 1 logged a caller-side DNS failure (`Temporary failure in name resolution`) and a native video queue overflow; the host was also under load from parallel work. The avatar published 768×768 video for the whole session in both runs and the agent-side turn metrics were normal, so this looks like caller-side degradation rather than an avatar or TTS regression. Simli time spent: ≈2.7 min across the two calls (≈$0.14 of avatar cost, from the session summaries).
+
+Synthetic monitor validation (`modal run infra/modal/monitor_app.py`, 2026-11-10): join → greeting 3.36 s, tool turn 3.03 s, plain turn 1.60 s, barge-in 1.22 s, `problems: []`. The monitor's three scripted questions all hit Cartesia 402 and were synthesised with Deepgram instead.

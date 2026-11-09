@@ -38,17 +38,37 @@ LOUD_RMS = 500
 
 
 CACHE_DIR = Path.home() / ".cache" / "avatar_talk" / "synth"
+DEEPGRAM_VOICE = "aura-2-andromeda-en"
 
 
 async def synth(text: str) -> np.ndarray:
-    """Cartesia TTS -> int16 mono @ 48 kHz (cached on disk; questions rarely change)."""
+    """TTS -> int16 mono @ 48 kHz (cached on disk; questions rarely change).
+
+    Cartesia is the preferred "user" voice, but the account can run out of credits; the
+    monitor container has no cache, so fall back to Deepgram Aura-2 (same key as STT).
+    """
     cache = CACHE_DIR / (hashlib.sha1(f"{CARTESIA_VOICE}:{text}".encode()).hexdigest() + ".pcm")
     if cache.exists():
         return np.frombuffer(cache.read_bytes(), dtype=np.int16)
-    pcm = await _synth_api(text)
+    try:
+        pcm = await _synth_api(text)
+    except Exception as e:
+        print(f"  (Cartesia TTS unavailable: {e}; using Deepgram for the question)")
+        pcm = await _synth_deepgram(text)
     cache.parent.mkdir(parents=True, exist_ok=True)
     cache.write_bytes(pcm.tobytes())
     return pcm
+
+
+async def _synth_deepgram(text: str) -> np.ndarray:
+    params = {"model": DEEPGRAM_VOICE, "encoding": "linear16", "sample_rate": SR}
+    headers = {"Authorization": f"Token {os.environ['DEEPGRAM_API_KEY']}", "Content-Type": "application/json"}
+    async with aiohttp.ClientSession() as http:
+        async with http.post(
+            "https://api.deepgram.com/v1/speak", params=params, json={"text": text}, headers=headers
+        ) as r:
+            r.raise_for_status()
+            return np.frombuffer(await r.read(), dtype=np.int16)
 
 
 async def _synth_api(text: str) -> np.ndarray:

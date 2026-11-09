@@ -19,6 +19,10 @@ class AgentSettings(ServiceSettings):
     simli_api_key: str | None = None
     tavily_api_key: str | None = None
 
+    # TTS fallbacks tried in order when the persona's voice fails ("provider/model", comma-
+    # separated). Default: Deepgram Aura-2, since the Cartesia account can run out of credits.
+    tts_fallbacks: str = "deepgram/aura-2-andromeda-en"
+
     # Where personas come from when a dispatch only carries persona_id.
     persona_from_api: bool = True
     default_prompt_file: Path = PROMPTS_DIR / "default_persona.md"

@@ -28,6 +28,7 @@ modal secret create avatar-talk-api   --from-json api.json   --force
   - `SIMLI_API_KEY`
   - `LANGFUSE_HOST`, `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`
   - `API_URL`, `INTERNAL_API_TOKEN`
+  - `TTS_FALLBACKS`, optional (default `deepgram/aura-2-andromeda-en`)
   - `FLASHHEAD_LAUNCH_URL`, optional
 - **`avatar-talk-api`:**
   - `LIVEKIT_URL`, `LIVEKIT_API_KEY`, `LIVEKIT_API_SECRET`

@@ -88,21 +88,55 @@ def make_llm(cfg: LLMConfig) -> lk_llm.LLM:
     return lk_llm.FallbackAdapter([primary, *fallbacks])
 
 
-def make_tts(cfg: VoiceConfig) -> lk_tts.TTS:
-    if cfg.provider == "cartesia":
+def _one_tts(
+    provider: str,
+    model: str,
+    *,
+    voice_id: str | None = None,
+    speed: float | None = None,
+    language: str = "en",
+) -> lk_tts.TTS:
+    if provider == "cartesia":
         from livekit.plugins import cartesia
 
-        kwargs = {"model": cfg.model, "language": cfg.language, "api_key": settings.cartesia_api_key}
-        if cfg.voice_id:
-            kwargs["voice"] = cfg.voice_id
-        if cfg.speed is not None:
-            kwargs["speed"] = cfg.speed
+        kwargs = {"model": model, "language": language, "api_key": settings.cartesia_api_key}
+        if voice_id:
+            kwargs["voice"] = voice_id
+        if speed is not None:
+            kwargs["speed"] = speed
         return cartesia.TTS(**kwargs)
-    if cfg.provider == "openai":
+    if provider == "deepgram":
+        from livekit.plugins import deepgram
+
+        # Aura-2: the voice is the model name (aura-2-andromeda-en, aura-2-thalia-en, ...).
+        return deepgram.TTS(model=model, api_key=settings.deepgram_api_key)
+    if provider == "openai":
         from livekit.plugins import openai
 
-        return openai.TTS(model=cfg.model, voice=cfg.voice_id or "alloy")
-    raise ValueError(f"Unknown TTS provider {cfg.provider!r}")
+        return openai.TTS(model=model, voice=voice_id or "alloy")
+    raise ValueError(f"Unknown TTS provider {provider!r}")
+
+
+def tts_fallback_refs(value: str) -> list[str]:
+    """'deepgram/a, cartesia/b' -> ['deepgram/a', 'cartesia/b']; empty disables the chain."""
+    return [ref.strip() for ref in value.split(",") if ref.strip()]
+
+
+def make_tts(cfg: VoiceConfig) -> lk_tts.TTS:
+    primary = _one_tts(
+        cfg.provider, cfg.model, voice_id=cfg.voice_id, speed=cfg.speed, language=cfg.language
+    )
+    fallbacks: list[lk_tts.TTS] = []
+    # The global chain is a safety net (e.g. Cartesia out of credits): it applies to every
+    # persona, while the persona's own voice stays primary.
+    for ref in tts_fallback_refs(settings.tts_fallbacks):
+        try:
+            fallbacks.append(_one_tts(*parse_model_ref(ref)))
+        except Exception as e:  # a misconfigured fallback must not take down the session
+            log.warning("skipping TTS fallback %s: %s", ref, e)
+    if not fallbacks:
+        return primary
+    return lk_tts.FallbackAdapter([primary, *fallbacks])
 
 
 def model_key(provider: str, model: str) -> str:
