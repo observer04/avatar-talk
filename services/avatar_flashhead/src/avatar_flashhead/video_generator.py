@@ -457,6 +457,10 @@ class FlashHeadVideoGenerator:
         delay = self._next_deadline - now
         if delay > 0:
             await self._sleep(delay)
+            # clear_buffer() may run while we sleep and reset the deadline to
+            # None; re-anchor instead of crashing on the ``+=`` below.
+            if self._next_deadline is None:
+                self._next_deadline = self._clock()
         elif delay < -MAX_PACING_LAG_S:
             log.warning("FlashHead video pacing fell behind by %.0f ms; re-anchoring", -delay * 1000)
             self._next_deadline = self._clock()

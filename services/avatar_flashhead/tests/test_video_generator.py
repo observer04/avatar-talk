@@ -168,6 +168,43 @@ async def test_interrupt_stops_promptly():
         await gen.aclose()
 
 
+async def test_clear_buffer_during_pace_sleep_does_not_crash():
+    """clear_buffer() while _pace() is mid-sleep must not kill the generator.
+
+    Regression (2026-11-10 e2e): clear_buffer() resets the pacing deadline to
+    None; _pace() used to resume from its sleep and raise ``TypeError:
+    unsupported operand type(s) for +=: 'NoneType' and 'float'`` on the
+    deadline update, crashing the avatar mid-session.
+    """
+    gen, model, clock = make_generator()
+    p = model.params
+    samples = np.full(p.slice_samples * 4, 1234, dtype=np.int16)
+    orig_sleep = clock.sleep
+    slept = False
+
+    async def sleep_that_clears(delay: float) -> None:
+        nonlocal slept
+        if not slept:
+            slept = True
+            gen.clear_buffer()  # fires while _pace() is awaiting its sleep
+        await orig_sleep(delay)
+
+    gen._sleep = sleep_that_clears
+    try:
+        await gen.push_audio(audio_frame(samples))
+        # Frame sequence per chunk: video, audio×k, video, audio×k, ... Only video
+        # frames pace; the first paces without sleeping, the second sleeps — and
+        # clear_buffer() fires from inside that sleep.
+        per_frame = 1 + gen._audio_frames_per_video_frame
+        await take(gen, per_frame + 1)
+        assert slept
+        # The cleared chunk is dropped; the generator keeps yielding idle video.
+        items = await take(gen, p.slice_len)
+        assert all(isinstance(x, rtc.VideoFrame) for x in items)
+    finally:
+        await gen.aclose()
+
+
 async def test_segment_end_after_padded_last_chunk():
     gen, model, _ = make_generator()
     p = model.params
