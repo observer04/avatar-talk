@@ -31,7 +31,12 @@ import subprocess
 import sys
 import time
 import urllib.request
+import warnings
 from pathlib import Path
+
+# modal 1.6 routes Cls instances' update_autoscaler() through a deprecated Function method;
+# demo.sh pins the modal version, so the warning is noise until the instance API changes.
+warnings.filterwarnings("ignore", message=r".*update_autoscaler\(\) is deprecated.*")
 
 ROOT = Path(__file__).resolve().parents[2]
 MODAL_DIR = ROOT / "infra/modal"
