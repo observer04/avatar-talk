@@ -267,6 +267,20 @@ modal deploy infra/modal/monitor_app.py
 
 The full runbook (secrets per service, regions, logs, keep-warm, costs) is in [`infra/modal/README.md`](infra/modal/README.md).
 
+### Demo on/off switch
+
+Turn the deployed demo on before showing it and off afterwards so idle workers don't use credit:
+
+```bash
+infra/modal/demo.sh on            # deploy anything missing, keep 1 agent worker + 1 FlashHead GPU warm, check health
+infra/modal/demo.sh on --no-gpu   # same without the GPU (photoreal face takes ~25 s to appear on the first call)
+infra/modal/demo.sh on --check    # also place one scripted test call (~$0.02)
+infra/modal/demo.sh status        # what is running and roughly what it costs per hour
+infra/modal/demo.sh off           # scale everything to zero and stop the monitor schedule (--dry-run to preview)
+```
+
+While on it costs about $2.84/hour with the warm GPU, or $0.13/hour without it, plus per-call usage. When off, nothing runs; the API wakes only if someone opens the URL.
+
 ### Tests and a synthetic call
 
 ```bash

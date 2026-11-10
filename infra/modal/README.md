@@ -39,6 +39,21 @@ modal secret create avatar-talk-api   --from-json api.json   --force
 
 The generated `INTERNAL_API_TOKEN` and the client `AVATAR_API_KEY` are kept in the repo-root `.env`, which is gitignored.
 
+## Demo on/off switch
+
+`infra/modal/demo.sh` turns the demo on and off without redeploying. It changes each app's minimum container count at runtime (`update_autoscaler`) and stops containers that are still running.
+
+| Command | What it does |
+| --- | --- |
+| `demo.sh on` | Deploys any missing app (building the web app first), keeps 1 agent worker and 1 FlashHead GPU warm, waits until both are up, and checks `/health` |
+| `demo.sh on --no-gpu` | Same, but the GPU stays cold (~$0.13/h instead of ~$2.84/h) |
+| `demo.sh on --check` | Also places one scripted voice call through `monitor_app.py` |
+| `demo.sh on --monitor` | Also re-enables the 3-hourly monitor schedule |
+| `demo.sh status` | Deployed apps, running containers (GPU vs CPU) and the approximate hourly cost |
+| `demo.sh off` | Agent and GPU to 0 containers, stops running containers, stops the monitor schedule. Volumes, secrets and the URL stay. `--dry-run` previews it |
+
+`off` ends any call in progress. A later `modal deploy` restores the code defaults (agent worker on, GPU cold).
+
 ## Deploy
 
 ```bash
