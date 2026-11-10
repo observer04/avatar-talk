@@ -1,13 +1,14 @@
-"""Synthetic monitoring: a scripted caller talks to the deployed agent on a schedule.
+"""Synthetic check: a scripted caller talks to the deployed agent, on demand.
 
 Each run joins a fresh LiveKit room as a "user", asks a tool question and a plain
 question, interrupts the agent, and checks transcripts and latency. A run that
 fails or breaches the thresholds raises, so Modal marks it failed (enable failure
 alerts for the app in the Modal dashboard). Results are logged as one JSON line.
 
-Cost: ~1 minute of STT/TTS/LLM per run (about $0.02), so the default is every 3 hours.
+Cost: ~1 minute of STT/TTS/LLM per run (about $0.02) plus ~800 TTS characters. It
+has no schedule: a 3-hourly cron used about a third of a free Cartesia plan per day,
+so it only runs when someone runs it.
 
-Deploy:   modal deploy infra/modal/monitor_app.py
 Run now:  modal run infra/modal/monitor_app.py
 """
 
@@ -41,7 +42,6 @@ app = modal.App("avatar-talk-monitor")
 @app.function(
     image=image,
     secrets=[modal.Secret.from_name("avatar-talk-agent")],
-    schedule=modal.Cron("17 */3 * * *"),
     timeout=6 * 60,
     retries=0,
 )
@@ -53,7 +53,7 @@ async def synthetic_check(llm: str = "groq/openai/gpt-oss-120b") -> dict:
     args = argparse.Namespace(
         llm=llm, avatar="none", simli_face_id=None, photo_key=None, json=None,
         persona_id=None, api_url=None, api_key=None,
-        # Deepgram voice: the scheduled check must not use up the Cartesia allowance
+        # Deepgram voice: test calls must not use up the Cartesia allowance
         # (8 runs a day at ~800 characters each would spend a free plan in ~3 days).
         voice="deepgram/aura-2-andromeda-en",
     )

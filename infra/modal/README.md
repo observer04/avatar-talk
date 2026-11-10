@@ -6,7 +6,7 @@ Each service is its own Modal app. Media flows through LiveKit Cloud; Modal runs
 | --- | --- | --- | --- |
 | `avatar-talk-agent` | `agent_app.py` | LiveKit Agents worker (CPU, 2 vCPU / 4 GB) | `min_containers` warm workers; LiveKit balances calls across them |
 | `avatar-talk-api` | `api_app.py` | Control-plane API plus the built web app | 1 container while on SQLite; raise once on Postgres |
-| `avatar-talk-monitor` | `monitor_app.py` | Synthetic caller every 3 h; fails loudly on regressions | cron |
+| `avatar-talk-monitor` | `monitor_app.py` | Synthetic test call; fails loudly on regressions | on demand only (`modal run`), no schedule |
 | `avatar-talk-flashhead` | `services/avatar_flashhead` | GPU avatar worker (after the spike) | per call, scales to zero |
 
 ## Modal CLI note for this machine
@@ -48,9 +48,8 @@ The generated `INTERNAL_API_TOKEN` and the client `AVATAR_API_KEY` are kept in t
 | `demo.sh on` | Deploys any missing app (building the web app first), keeps 1 agent worker and 1 FlashHead GPU warm, waits until both are up, and checks `/health` |
 | `demo.sh on --no-gpu` | Same, but the GPU stays cold (~$0.13/h instead of ~$2.84/h) |
 | `demo.sh on --check` | Also places one scripted voice call through `monitor_app.py` |
-| `demo.sh on --monitor` | Also re-enables the 3-hourly monitor schedule |
 | `demo.sh status` | Deployed apps, running containers (GPU vs CPU) and the approximate hourly cost |
-| `demo.sh off` | Agent and GPU to 0 containers, stops running containers, stops the monitor schedule. Volumes, secrets and the URL stay. `--dry-run` previews it |
+| `demo.sh off` | Agent and GPU to 0 containers, stops running containers (and the monitor app if deployed). Volumes, secrets and the URL stay. `--dry-run` previews it |
 
 `off` ends any call in progress. A later `modal deploy` restores the code defaults (agent worker on, GPU cold).
 
@@ -59,7 +58,6 @@ The generated `INTERNAL_API_TOKEN` and the client `AVATAR_API_KEY` are kept in t
 ```bash
 modal deploy infra/modal/agent_app.py
 (cd web && npm run build) && modal deploy infra/modal/api_app.py
-modal deploy infra/modal/monitor_app.py
 modal run infra/modal/monitor_app.py      # one synthetic call now, prints latency
 ```
 

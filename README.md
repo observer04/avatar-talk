@@ -33,7 +33,7 @@ flowchart LR
         VOL[("Volume<br/>SQLite + photos")]
         AGENT["avatar-talk-agent<br/>voice agent<br/>CPU · always warm"]
         GPU["avatar-talk-flashhead<br/>photoreal avatar<br/>GPU · scales to zero"]
-        MON["avatar-talk-monitor<br/>cron test caller"]
+        MON["avatar-talk-monitor<br/>on-demand test caller"]
     end
 
     subgraph AI["Managed AI APIs"]
@@ -177,7 +177,7 @@ stateDiagram-v2
 
 ### Deployment on Modal
 
-All infrastructure is Python code in [`infra/modal/`](infra/modal/): images, hardware, scaling, regions, secrets, volumes and schedules are declared next to the code that uses them.
+All infrastructure is Python code in [`infra/modal/`](infra/modal/): images, hardware, scaling, regions, secrets and volumes are declared next to the code that uses them.
 
 ```mermaid
 flowchart TB
@@ -186,7 +186,7 @@ flowchart TB
         A1["avatar-talk-api<br/>asgi_app, 1 container<br/>Volume /data"]
         A2["avatar-talk-agent<br/>cls, 1 always-warm worker<br/>region us-east, 24 h timeout"]
         A3["avatar-talk-flashhead<br/>GPU cls: L40S or H100, region us<br/>min 0, max 10, scaledown 60 s<br/>+ small CPU /launch endpoint"]
-        A4["avatar-talk-monitor<br/>function, Cron 17 */3 * * *"]
+        A4["avatar-talk-monitor<br/>function, run on demand"]
     end
     S1[["Secret avatar-talk-api"]] --> A1
     S2[["Secret avatar-talk-agent"]] --> A2 & A3 & A4
@@ -203,7 +203,7 @@ flowchart TB
 | Region placement | the agent is pinned to `us-east` next to Deepgram, Groq and Cartesia (plain turn 2.21 s from the EU vs 1.40–1.82 s from us-east) |
 | Persistent storage | Modal Volumes for the SQLite database and photos, and for the 1.3B-parameter model weights |
 | Secrets management | Modal Secrets per service, created from JSON files so values never appear on a command line |
-| Scheduled jobs | a cron synthetic caller checks latency every 3 hours and fails loudly on regressions |
+| Synthetic checks | an on-demand scripted caller (`modal run infra/modal/monitor_app.py`) measures latency and fails loudly on regressions; it has no schedule, to save credits |
 | Managed media (PaaS) | LiveKit Cloud SFU, TURN and explicit agent dispatch |
 | Observability (SaaS) | OpenTelemetry traces to Langfuse, JSON logs with correlation IDs, per-session cost reports |
 
@@ -216,7 +216,7 @@ flowchart LR
     A -- "JSON logs with<br/>session_id, room, persona_id" --> ML["Modal logs"]
     A -- "session summary: per-turn<br/>latency, usage, cost" --> API
     API --> DB[("sessions table")]
-    MON["monitor cron"] -- "latency thresholds" --> ALERT["failed run raises<br/>a Modal alert"]
+    MON["synthetic check<br/>(on demand)"] -- "latency thresholds" --> ALERT["failed run is<br/>marked failed"]
     A -. "optional" .-> OTLP["any OTLP backend<br/>(Jaeger, Tempo) or Sentry"]
 ```
 
@@ -262,7 +262,7 @@ modal secret create avatar-talk-api   --from-json api.json
 modal deploy infra/modal/agent_app.py
 modal deploy infra/modal/flashhead_app.py                       # optional: self-hosted photoreal avatar
 (cd web && npm run build) && modal deploy infra/modal/api_app.py
-modal deploy infra/modal/monitor_app.py
+modal run infra/modal/monitor_app.py                            # optional: one scripted test call
 ```
 
 The full runbook (secrets per service, regions, logs, keep-warm, costs) is in [`infra/modal/README.md`](infra/modal/README.md).
@@ -276,7 +276,7 @@ infra/modal/demo.sh on            # deploy anything missing, keep 1 agent worker
 infra/modal/demo.sh on --no-gpu   # same without the GPU (photoreal face takes ~25 s to appear on the first call)
 infra/modal/demo.sh on --check    # also place one scripted test call (~$0.02)
 infra/modal/demo.sh status        # what is running and roughly what it costs per hour
-infra/modal/demo.sh off           # scale everything to zero and stop the monitor schedule (--dry-run to preview)
+infra/modal/demo.sh off           # scale everything to zero (--dry-run to preview)
 ```
 
 While on it costs about $2.84/hour with the warm GPU, or $0.13/hour without it, plus per-call usage. When off, nothing runs; the API wakes only if someone opens the URL.

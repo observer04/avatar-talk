@@ -45,7 +45,7 @@ The project went through two phases.
 - **LiveKit Agents** replaced Pipecat, with LiveKit Cloud as the media plane.
 - **Managed speech services** replaced local models: Deepgram Flux for speech recognition (it also decides when the user has finished a turn) and Cartesia Sonic-3 for speech synthesis.
 - **Two photoreal avatar paths** sit behind one interface: Simli (managed) and SoulX-FlashHead (open-source, self-hosted on Modal GPUs).
-- **Modal** hosts everything: the API, the voice agents, the GPU avatar workers and a scheduled monitor.
+- **Modal** hosts everything: the API, the voice agents, the GPU avatar workers and an on-demand test caller.
 
 Two independent model recommendations (in `docs/gemini_recommendation.md` and `docs/gpt_recommendation.md`) were reviewed at the start to choose the components.
 
@@ -74,7 +74,7 @@ flowchart LR
         VOL[("Volume<br/>SQLite + photos")]
         AGENT["avatar-talk-agent<br/>voice agent<br/>CPU · always warm"]
         GPU["avatar-talk-flashhead<br/>photoreal avatar<br/>GPU · scales to zero"]
-        MON["avatar-talk-monitor<br/>cron test caller"]
+        MON["avatar-talk-monitor<br/>on-demand test caller"]
     end
 
     subgraph AI["Managed AI APIs"]
@@ -109,7 +109,7 @@ flowchart LR
 | Voice agent (`services/agent/`) | LiveKit Agents 1.8 | Speech pipeline, persona prompt, tools, avatar backend, metrics, cost accounting, tracing |
 | GPU avatar worker (`services/avatar_flashhead/`) | SoulX-FlashHead 1.3B (Lite), PyTorch, flash-attention, LiveKit | Joins the call, receives the agent's speech audio, generates lip-synced 512×512 video at 25 fps, publishes synchronised audio and video |
 | Shared core (`packages/core/`) | Pydantic, OpenTelemetry | Settings, Persona and Session schemas, structured logging with correlation IDs, telemetry setup, cost model |
-| Infrastructure (`infra/modal/`) | Modal Python SDK | Images, hardware, scaling, regions, secrets, volumes and schedules for the four apps |
+| Infrastructure (`infra/modal/`) | Modal Python SDK | Images, hardware, scaling, regions, secrets and volumes for the four apps |
 
 ### 4.3 Session flow
 
@@ -154,7 +154,7 @@ Each turn streams through the stages without waiting for complete results:
 | Decision | Alternatives considered | Reason |
 | --- | --- | --- |
 | LiveKit Agents + LiveKit Cloud | Pipecat + Daily, custom WebRTC | Production media infrastructure (SFU, TURN, global edge) as a managed service; built-in agent dispatch, avatar data streams and turn handling |
-| Modal for all compute | AWS ECS/Lambda, Azure Container Apps, GCP Cloud Run | One platform for CPU services, GPUs with per-second billing and scale-to-zero, cron jobs, volumes and secrets, all defined in Python; free credit available |
+| Modal for all compute | AWS ECS/Lambda, Azure Container Apps, GCP Cloud Run | One platform for CPU services, GPUs with per-second billing and scale-to-zero, on-demand jobs, volumes and secrets, all defined in Python; free credit available |
 | Explicit agent dispatch with metadata | automatic dispatch | The API decides which persona joins which room, and the agent receives the session ID for tracing and reporting |
 | Two photoreal avatar paths behind one interface | a single vendor | Simli is fast to integrate; FlashHead is open source with no per-minute fee; the interface allows adding more |
 | Groq `gpt-oss-120b` as the default LLM | OpenAI `gpt-4.1-mini`, Groq `gpt-oss-20b` | Lowest measured time to first token (0.46–0.70 s) and cheapest; fallbacks keep the call alive if Groq fails |
@@ -165,10 +165,10 @@ Each turn streams through the stages without waiting for complete results:
 
 | Service | Category | What it provides here | Tier and cost |
 | --- | --- | --- | --- |
-| **Modal** | Serverless compute (CaaS/PaaS) | Four apps: an ASGI web endpoint for the API and static web app; an always-warm CPU class for the voice agent; a GPU class (L40S, H100 fallback) for avatars that scales to zero; a cron function for monitoring. Also container image builds, Volumes, Secrets, logs and region selection | Pay per second; covered by about $100 of credit |
+| **Modal** | Serverless compute (CaaS/PaaS) | Four apps: an ASGI web endpoint for the API and static web app; an always-warm CPU class for the voice agent; a GPU class (L40S, H100 fallback) for avatars that scales to zero; an on-demand function for synthetic test calls. Also container image builds, Volumes, Secrets, logs and region selection | Pay per second; covered by about $100 of credit |
 | **Modal Volumes** | Persistent storage | `avatar-talk-data` holds the SQLite database and persona photos; `flashhead-weights` holds the model weights so containers never download them | Included |
 | **Modal Secrets** | Secrets management | Per-service credentials injected as environment variables | Included |
-| **Modal Cron** | Scheduling | Synthetic call every 3 hours with latency thresholds; a failed run triggers an alert | ~$0.02 per run |
+| **Modal Functions (on demand)** | Synthetic checks | A scripted test call with latency thresholds, run with `modal run`; a failed run is marked failed | ~$0.02 per run |
 | **LiveKit Cloud** | Managed real-time media (PaaS) | WebRTC SFU, TURN, global edge, rooms, agent dispatch, data streams | Free tier |
 | **Deepgram** | AI API (SaaS) | Flux streaming speech recognition with turn detection; Aura-2 fallback voice | ~$0.0077 per audio minute |
 | **Groq** | AI API (SaaS) | `gpt-oss-120b` language model on LPU hardware | ~$0.15 / $0.60 per million input / output tokens |
@@ -189,7 +189,7 @@ Cloud computing concepts this demonstrates:
 - **Managed services at every layer:** PaaS for media, SaaS for AI and observability.
 - **Secrets management.**
 - **Health checks and synthetic monitoring.**
-- **Cost governance:** per-session cost accounting and a daily spend cap.
+- **Cost governance:** per-session cost accounting, a daily spend cap, scale to zero, and a demo on/off switch that stops everything that costs money while idle.
 
 ### 5.1 Deployment topology
 
@@ -200,7 +200,7 @@ flowchart TB
         A1["avatar-talk-api<br/>1 container, Volume /data"]
         A2["avatar-talk-agent<br/>1 warm worker, us-east"]
         A3["avatar-talk-flashhead<br/>GPU L40S or H100, 0 to 10"]
-        A4["avatar-talk-monitor<br/>cron every 3 h"]
+        A4["avatar-talk-monitor<br/>on demand"]
     end
     S1[["Secret: api"]] --> A1
     S2[["Secret: agent"]] --> A2 & A3 & A4
@@ -213,7 +213,7 @@ flowchart TB
 | `avatar-talk-api` | 1 vCPU, 1 GB | 1 container (single SQLite writer); the volume is committed after each write |
 | `avatar-talk-agent` | 2 vCPU, 4 GB, `us-east` | 1 always-warm worker; LiveKit balances calls across registered workers; raise `min_containers` for more capacity |
 | `avatar-talk-flashhead` | L40S (H100 fallback), 8 vCPU, 48 GB, any US region | 0 to 10 containers, one per call; 60 s scale-down; optional keep-warm |
-| `avatar-talk-monitor` | CPU | cron `17 */3 * * *` |
+| `avatar-talk-monitor` | CPU | on demand (`modal run`) |
 
 ## 6. Implementation
 
@@ -294,7 +294,7 @@ The React application lists personas, creates a persona with a photo and a voice
 
 - **Unit tests:** 55 Python tests with pytest. They cover the schemas and cost model, the cue parser, provider selection, persona loading, every API route against a test database, the FlashHead video generator (buffering, pacing, interruption, including a regression test for a crash found in production), the late-join audio hand-off, and the stale-launch guard.
 - **Synthetic caller:** `services/agent/scripts/synthetic_call.py` is a headless end-to-end test. It joins a real room as a user and speaks synthesised questions: a tool question, a plain question, and an interruption. It measures what the user would hear (time to the agent's first audio, barge-in time, avatar video frame rate) and checks transcripts.
-- **Synthetic monitor:** the same script runs on Modal every three hours against production.
+- **Synthetic check:** the same script runs on Modal against production on demand. It first ran every three hours, but each run used about 800 TTS characters (a third of a free Cartesia plan per day), so the schedule was removed.
 - **CI:** GitHub Actions runs ruff, pytest, the TypeScript type check and the production web build.
 
 ## 7. Results
@@ -342,7 +342,7 @@ FlashHead GPU benchmark (Spike A):
 | Simli avatar | ≈ $0.05 per minute |
 | FlashHead avatar | ≈ $0.045 per minute at one stream per L40S ($2.71 per hour all-in); $0.68 per stream-hour at 4 streams per GPU |
 | Idle cost | one CPU agent worker; GPUs cost $0 between calls |
-| Synthetic monitor | ≈ $0.02 per run, 8 runs per day |
+| Synthetic check | ≈ $0.02 per run, on demand only |
 
 Every session report includes its own estimated cost broken down by service, and the API refuses new sessions once the day's total exceeds the cap.
 
@@ -382,7 +382,7 @@ Future work:
 ## References
 
 1. LiveKit Agents documentation: https://docs.livekit.io/agents/
-2. Modal documentation (GPUs, regions, volumes, secrets, cron): https://modal.com/docs
+2. Modal documentation (GPUs, regions, volumes, secrets): https://modal.com/docs
 3. Deepgram Flux: https://developers.deepgram.com/docs/flux
 4. Cartesia Sonic: https://docs.cartesia.ai/
 5. Groq: https://console.groq.com/docs

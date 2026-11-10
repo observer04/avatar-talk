@@ -10,14 +10,14 @@
 What costs money while nobody is talking:
   - avatar-talk-agent keeps one CPU worker registered with LiveKit (~$0.13/h).
   - avatar-talk-flashhead costs nothing unless a GPU is kept warm (~$2.71/h).
-  - avatar-talk-monitor places a scripted call every 3 hours (~$0.02 each).
+  - avatar-talk-monitor has no schedule; it only runs on demand (`modal run`).
   - avatar-talk-api scales to zero on its own; it costs nothing while idle.
 LiveKit, Deepgram, Groq, Cartesia and Simli bill only for calls.
 
 "on" deploys any app that is missing (building the web app first), keeps one agent
 worker and, unless --no-gpu, one FlashHead GPU warm, waits until they are up and
-checks the API. "off" sets the agent and GPU to zero containers, stops the ones still
-running, and stops the monitor's schedule. Volumes, secrets and the API URL are kept,
+checks the API. "off" sets the agent and GPU to zero containers and stops the ones
+still running. Volumes, secrets and the API URL are kept,
 so "on" brings the same demo back. A later `modal deploy` restores the code defaults
 (agent on, GPU cold).
 """
@@ -140,14 +140,14 @@ def status() -> None:
         print(f"{app:<24}{'yes' if app in deployed else 'no':<10}{label:<20}{cost:.2f}")
     print(f"{'total':<54}{total:.2f}")
     if MONITOR in deployed:
-        print("monitor schedule: on (one scripted call every 3 h, ~$0.02 each)")
+        print(f"note: {MONITOR} is deployed; `demo.sh off` stops it")
     if gpus:
         print(f"note: {gpus} FlashHead GPU(s) running: a call in progress, or kept warm by `demo.sh on`")
     if API in deployed:
         print(f"demo URL: {api_url()}")
 
 
-def on(gpu: bool, check: bool, monitor: bool) -> None:
+def on(gpu: bool, check: bool) -> None:
     deployed = deployed_apps()
     print("1/4 deployments")
     for app in (API, AGENT, GPU):
@@ -155,8 +155,6 @@ def on(gpu: bool, check: bool, monitor: bool) -> None:
             print(f"  {app}: deployed")
         else:
             deploy(app)
-    if monitor and MONITOR not in deployed:
-        deploy(MONITOR)
 
     print("2/4 warm containers")
     set_min_containers(AGENT, 1)
@@ -201,7 +199,7 @@ def off(dry_run: bool = False) -> None:
             if app != MONITOR:
                 print(f"DRY RUN: would stop {app} containers {ids}")
         if MONITOR in deployed:
-            print(f"DRY RUN: would stop the {MONITOR} schedule")
+            print(f"DRY RUN: would stop {MONITOR}")
         if GPU in deployed and gpu_runners():
             print("DRY RUN: warning, a FlashHead GPU is running: stopping it ends any call in progress")
         return
@@ -210,7 +208,7 @@ def off(dry_run: bool = False) -> None:
         if app in deployed:
             set_min_containers(app, 0)
             print(f"  {app}: min containers 0")
-    print("2/3 stop running containers and the monitor schedule")
+    print("2/3 stop running containers")
     for app, ids in containers().items():
         if app == MONITOR:
             continue
@@ -219,7 +217,7 @@ def off(dry_run: bool = False) -> None:
             print(f"  stopped {app} container {cid}")
     if MONITOR in deployed:
         _modal("app", "stop", "-y", MONITOR)
-        print(f"  {MONITOR}: stopped (`demo.sh on --monitor` brings it back)")
+        print(f"  {MONITOR}: stopped")
     print("3/3 checking")
     wait_for("all containers gone", lambda: not containers(), 120)
     print("OFF · nothing is running; the API wakes up only if someone opens the URL (free while idle).")
@@ -232,13 +230,12 @@ def main() -> None:
     p_on = sub.add_parser("on", help="get everything ready for a demo")
     p_on.add_argument("--no-gpu", action="store_true", help="don't keep a FlashHead GPU warm")
     p_on.add_argument("--check", action="store_true", help="run one scripted test call afterwards")
-    p_on.add_argument("--monitor", action="store_true", help="also re-enable the 3-hourly monitor")
     p_off = sub.add_parser("off", help="stop everything that costs money while idle")
     p_off.add_argument("--dry-run", action="store_true", help="only show what would be stopped")
     sub.add_parser("status", help="show what is running")
     args = ap.parse_args()
     if args.cmd == "on":
-        on(gpu=not args.no_gpu, check=args.check, monitor=args.monitor)
+        on(gpu=not args.no_gpu, check=args.check)
     elif args.cmd == "off":
         off(dry_run=args.dry_run)
     else:
