@@ -28,7 +28,7 @@ from pathlib import Path
 
 import aiohttp
 import numpy as np
-from avatar_core import AGENT_NAME, AvatarBackend, AvatarConfig, LLMConfig, Persona, SessionMetadata
+from avatar_core import AGENT_NAME, AvatarBackend, AvatarConfig, LLMConfig, Persona, SessionMetadata, VoiceConfig
 from livekit import api, rtc
 
 SR = 48000
@@ -44,17 +44,18 @@ DEEPGRAM_VOICE = "aura-2-andromeda-en"
 async def synth(text: str) -> np.ndarray:
     """TTS -> int16 mono @ 48 kHz (cached on disk; questions rarely change).
 
-    Cartesia is the preferred "user" voice, but the account can run out of credits; the
-    monitor container has no cache, so fall back to Deepgram Aura-2 (same key as STT).
+    The "user" voice comes from Deepgram Aura-2 (same key as STT, generous credit) so
+    test calls don't spend the Cartesia allowance the agent's own voice needs; the
+    monitor container has no cache and synthesises the questions on every run.
     """
-    cache = CACHE_DIR / (hashlib.sha1(f"{CARTESIA_VOICE}:{text}".encode()).hexdigest() + ".pcm")
+    cache = CACHE_DIR / (hashlib.sha1(f"deepgram:{DEEPGRAM_VOICE}:{text}".encode()).hexdigest() + ".pcm")
     if cache.exists():
         return np.frombuffer(cache.read_bytes(), dtype=np.int16)
     try:
-        pcm = await _synth_api(text)
-    except Exception as e:
-        print(f"  (Cartesia TTS unavailable: {e}; using Deepgram for the question)")
         pcm = await _synth_deepgram(text)
+    except Exception as e:
+        print(f"  (Deepgram TTS unavailable: {e}; using Cartesia for the question)")
+        pcm = await _synth_api(text)
     cache.parent.mkdir(parents=True, exist_ok=True)
     cache.write_bytes(pcm.tobytes())
     return pcm
@@ -188,6 +189,10 @@ async def main(args) -> dict:
                             photo_key=args.photo_key),
         tools=["basics"],
     )
+    if args.voice != "cartesia":
+        # e.g. "deepgram/aura-2-andromeda-en": keeps scheduled checks off the Cartesia allowance
+        v_provider, _, v_model = args.voice.partition("/")
+        persona.voice = VoiceConfig(provider=v_provider, model=v_model)
     meta = SessionMetadata(persona=persona, tags={"synthetic": "true"})
 
     print(f"synth: preparing questions ({args.llm}, avatar={args.avatar}, room={room_name})")
@@ -311,6 +316,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--llm", default="openai/gpt-4.1-mini")
     ap.add_argument("--avatar", default="none", choices=[b.value for b in AvatarBackend])
+    ap.add_argument("--voice", default="cartesia",
+                    help='agent voice for an inline persona: "cartesia" (the default persona voice) '
+                         'or "provider/model", e.g. deepgram/aura-2-andromeda-en')
     ap.add_argument("--simli-face-id", default=None)
     ap.add_argument("--photo-key", default=None)
     ap.add_argument("--json", default=None, help="write results to this file")

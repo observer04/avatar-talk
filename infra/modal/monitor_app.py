@@ -53,6 +53,9 @@ async def synthetic_check(llm: str = "groq/openai/gpt-oss-120b") -> dict:
     args = argparse.Namespace(
         llm=llm, avatar="none", simli_face_id=None, photo_key=None, json=None,
         persona_id=None, api_url=None, api_key=None,
+        # Deepgram voice: the scheduled check must not use up the Cartesia allowance
+        # (8 runs a day at ~800 characters each would spend a free plan in ~3 days).
+        voice="deepgram/aura-2-andromeda-en",
     )
     result = await synthetic_call.main(args)
     result.pop("transcript", None)
