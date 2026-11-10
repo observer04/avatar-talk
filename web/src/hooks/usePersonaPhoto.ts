@@ -12,7 +12,7 @@ export function usePersonaPhoto(persona: Persona | null | undefined): string | n
   const [blobUrl, setBlobUrl] = useState<{ key: string; url: string } | null>(null)
 
   useEffect(() => {
-    if (!hasApiKey || !persona || !direct) return
+    if (!hasApiKey() || !persona || !direct) return
     const ctrl = new AbortController()
     let created: string | null = null
     fetchPhotoBlob(persona, ctrl.signal)
@@ -30,6 +30,6 @@ export function usePersonaPhoto(persona: Persona | null | undefined): string | n
   }, [direct])
 
   if (!direct) return null
-  if (!hasApiKey) return direct
+  if (!hasApiKey()) return direct
   return blobUrl?.key === direct ? blobUrl.url : null
 }

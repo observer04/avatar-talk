@@ -1,10 +1,32 @@
 import type { Persona, PersonaCreate, SessionStart } from './types'
 
 const BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/+$/, '')
-const API_KEY = import.meta.env.VITE_API_KEY ?? ''
+const BUILD_KEY = import.meta.env.VITE_API_KEY ?? ''
+const KEY_STORAGE = 'avatarTalk.apiKey'
+let memoryKey = ''
+
+/** Client key: one entered in the browser (kept in localStorage) wins over a build-time VITE_API_KEY. */
+export function getApiKey(): string {
+  if (memoryKey) return memoryKey
+  try {
+    return localStorage.getItem(KEY_STORAGE) || BUILD_KEY
+  } catch {
+    return BUILD_KEY
+  }
+}
+
+export function setApiKey(key: string): void {
+  try {
+    if (key) localStorage.setItem(KEY_STORAGE, key)
+    else localStorage.removeItem(KEY_STORAGE)
+  } catch {
+    // storage blocked: the key only lasts until reload
+  }
+  memoryKey = key
+}
 
 /** True when requests need an Authorization header (so `<img src>` can't load photos directly). */
-export const hasApiKey = API_KEY !== ''
+export const hasApiKey = (): boolean => getApiKey() !== ''
 
 export class ApiError extends Error {
   readonly status: number
@@ -17,7 +39,8 @@ export class ApiError extends Error {
 }
 
 function authHeaders(): Record<string, string> {
-  return API_KEY ? { Authorization: `Bearer ${API_KEY}` } : {}
+  const key = getApiKey()
+  return key ? { Authorization: `Bearer ${key}` } : {}
 }
 
 /** FastAPI errors are `{detail: string}` or `{detail: [{msg, loc}, ...]}` for validation. */

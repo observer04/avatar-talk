@@ -58,10 +58,9 @@ app = modal.App("avatar-talk-api")
 def web():
     import os
 
+    from api.main import app as api
     from fastapi import Request
     from fastapi.staticfiles import StaticFiles
-
-    from api.main import app as api
 
     if os.environ.get("DATABASE_URL", "").startswith("sqlite"):
         @api.middleware("http")

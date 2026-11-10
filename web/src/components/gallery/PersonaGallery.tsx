@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ApiError, api } from '../../api/client'
+import { ApiError, api, setApiKey } from '../../api/client'
 import type { Persona } from '../../api/types'
 import { PlusIcon } from '../icons'
 import { NewPersonaDialog } from './NewPersonaDialog'
@@ -11,13 +11,14 @@ interface Props {
   onTalk(p: Persona): void
 }
 
-type Load = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'ok' }
+type Load = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'auth'; message: string } | { kind: 'ok' }
 
 export function PersonaGallery({ onTalk }: Props) {
   const [personas, setPersonas] = useState<Persona[]>([])
   const [load, setLoad] = useState<Load>({ kind: 'loading' })
   const [notice, setNotice] = useState<string | null>(null)
   const [creating, setCreating] = useState(false)
+  const [keyInput, setKeyInput] = useState('')
 
   const refresh = useCallback(
     () =>
@@ -26,7 +27,10 @@ export function PersonaGallery({ onTalk }: Props) {
           setPersonas(list)
           setLoad({ kind: 'ok' })
         },
-        (err: unknown) => setLoad({ kind: 'error', message: err instanceof Error ? err.message : String(err) }),
+        (err: unknown) => {
+          const message = err instanceof Error ? err.message : String(err)
+          setLoad(err instanceof ApiError && err.status === 401 ? { kind: 'auth', message } : { kind: 'error', message })
+        },
       ),
     [],
   )
@@ -122,6 +126,34 @@ export function PersonaGallery({ onTalk }: Props) {
             Retry
           </button>
         </div>
+      )}
+
+      {load.kind === 'auth' && (
+        <form
+          className="banner warn key-form"
+          onSubmit={(e) => {
+            e.preventDefault()
+            setApiKey(keyInput.trim())
+            setKeyInput('')
+            setLoad({ kind: 'loading' })
+            void refresh()
+          }}
+        >
+          <label htmlFor="api-key">This server needs an API key ({load.message}). It is saved in this browser only.</label>
+          <div className="key-row">
+            <input
+              id="api-key"
+              type="password"
+              autoComplete="off"
+              placeholder="Paste API key"
+              value={keyInput}
+              onChange={(e) => setKeyInput(e.target.value)}
+            />
+            <button className="btn primary" type="submit" disabled={!keyInput.trim()}>
+              Save
+            </button>
+          </div>
+        </form>
       )}
 
       {load.kind === 'loading' && personas.length === 0 && (
