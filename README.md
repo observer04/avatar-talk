@@ -252,20 +252,64 @@ uv run python -m agent.main dev         # agent worker, registers with LiveKit C
 cd web && npm install && npm run dev    # http://localhost:5173 (proxies /v1 to :8000)
 ```
 
-Leave `API_KEYS` empty for local use (no auth), or set it and paste the key when the page asks. `npm run mock` in `web/` serves a stand-in API for UI work without any keys.
+Leave `API_KEYS` empty for local use (no auth), or set it and paste the key when the page asks. A local agent registers with LiveKit under the same name as the cloud one, so run `infra/modal/demo.sh off` first if the cloud agent is deployed, or calls may go to either. `npm run mock` in `web/` serves a stand-in API for UI work without any keys.
 
-### On the cloud (Modal)
+### On the cloud (Modal), first time
 
-```bash
-modal secret create avatar-talk-agent --from-json agent.json   # keys listed in infra/modal/README.md
-modal secret create avatar-talk-api   --from-json api.json
-modal deploy infra/modal/agent_app.py
-modal deploy infra/modal/flashhead_app.py                       # optional: self-hosted photoreal avatar
-(cd web && npm run build) && modal deploy infra/modal/api_app.py
-modal run infra/modal/monitor_app.py                            # optional: one scripted test call
-```
+You need a Modal account (`pip install modal && modal setup`) and the keys above. The order matters because the agent's secret needs the URLs of the API and the FlashHead launcher, which exist only after those apps are deployed.
 
-The full runbook (secrets per service, regions, logs, keep-warm, costs) is in [`infra/modal/README.md`](infra/modal/README.md).
+1. **Generate two shared tokens** (keep them; they go into both secrets and your `.env`):
+
+   ```bash
+   python -c "import secrets; print('INTERNAL_API_TOKEN', secrets.token_urlsafe(32)); print('AVATAR_API_KEY', secrets.token_urlsafe(24))"
+   ```
+
+2. **Create the API secret** from a JSON file (delete the file afterwards):
+
+   ```json
+   {"LIVEKIT_URL": "wss://<project>.livekit.cloud", "LIVEKIT_API_KEY": "...", "LIVEKIT_API_SECRET": "...",
+    "INTERNAL_API_TOKEN": "<token>", "API_KEYS": "<AVATAR_API_KEY>", "CORS_ORIGINS": "*",
+    "SIMLI_API_KEY": "", "ENVIRONMENT": "prod"}
+   ```
+
+   ```bash
+   modal secret create avatar-talk-api --from-json api.json
+   ```
+
+3. **Deploy the API and web app**, and note the URL it prints:
+
+   ```bash
+   (cd web && npm ci && npm run build) && modal deploy infra/modal/api_app.py
+   ```
+
+4. **Optional, for the photoreal FlashHead avatar:** download the model weights into a Modal volume once (about 10 minutes), then deploy the GPU worker and note its `...-web.modal.run` URL:
+
+   ```bash
+   modal run services/avatar_flashhead/spike/bench_modal.py::download
+   modal deploy infra/modal/flashhead_app.py
+   ```
+
+5. **Create the agent secret** with the URLs from steps 3 and 4:
+
+   ```json
+   {"LIVEKIT_URL": "wss://<project>.livekit.cloud", "LIVEKIT_API_KEY": "...", "LIVEKIT_API_SECRET": "...",
+    "DEEPGRAM_API_KEY": "...", "CARTESIA_API_KEY": "...", "GROQ_API_KEY": "...",
+    "OPENROUTER_API_KEY": "", "OPENAI_API_KEY": "", "TAVILY_API_KEY": "", "SIMLI_API_KEY": "",
+    "LANGFUSE_HOST": "https://cloud.langfuse.com", "LANGFUSE_PUBLIC_KEY": "", "LANGFUSE_SECRET_KEY": "",
+    "API_URL": "<URL from step 3>", "INTERNAL_API_TOKEN": "<token>", "AVATAR_API_KEY": "<AVATAR_API_KEY>",
+    "FLASHHEAD_LAUNCH_URL": "<URL from step 4, or empty>"}
+   ```
+
+   ```bash
+   modal secret create avatar-talk-agent --from-json agent.json
+   modal deploy infra/modal/agent_app.py
+   ```
+
+6. **Open the API URL** in a browser, paste `AVATAR_API_KEY` when asked, create a persona and press Call. To check the stack from the command line instead: `modal run infra/modal/monitor_app.py` (one scripted test call, about $0.02).
+
+7. **Turn it off when you're done:** `infra/modal/demo.sh off` (see below).
+
+If Modal commands fail with a malformed-token error, a stale `MODAL_TOKEN_ID`/`MODAL_TOKEN_SECRET` in your shell is overriding `~/.modal.toml`; unset them. Changing a key later means re-creating the secret with all values and redeploying the app that uses it. The full runbook (regions, logs, keep-warm, costs) is in [`infra/modal/README.md`](infra/modal/README.md).
 
 ### Demo on/off switch
 
