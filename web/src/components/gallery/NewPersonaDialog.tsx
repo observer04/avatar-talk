@@ -20,6 +20,20 @@ const BACKEND_HINTS: Record<AvatarBackend, string> = {
   none: 'Voice only, with an audio visualiser.',
 }
 
+/** A few Cartesia sonic-3 voices so the voice can match the face; any other ID via "Custom". */
+const VOICES: { id: string; label: string }[] = [
+  { id: '30894953-bcce-41fe-892c-15ce19c843ff', label: 'Parker: warm, friendly (male, US)' },
+  { id: '47c38ca4-5f35-497b-b1a3-415245fb35e1', label: 'Daniel: clear, crisp (male, US)' },
+  { id: 'ef191366-f52f-447a-a398-ed8c0f2943a1', label: 'Archie: warm, casual (male, UK)' },
+  { id: '0ad65e7f-006c-47cf-bd31-52279d487913', label: 'Rupert: mature, reassuring (male)' },
+  { id: '4877b818-c7fe-4c89-b1cf-eadf8e23da72', label: 'Rohan: measured (male, Indian)' },
+  { id: 'db6b0ed5-d5d3-463d-ae85-518a07d3c2b4', label: 'Skylar: friendly (female, US)' },
+  { id: 'e8e5fffb-252c-436d-b842-8879b84445b6', label: 'Cathy: casual, young (female, US)' },
+  { id: '62ae83ad-4f6a-430b-af41-a9bede9286ca', label: 'Gemma: confident (female, UK)' },
+  { id: '273f9ef7-9fc2-4def-88bb-ab108c6249ca', label: 'Julia: soft, gentle (female)' },
+]
+const CUSTOM_VOICE = 'custom'
+
 interface Props {
   onClose(): void
   /** Called after create (and photo upload, if any). `warning` = created but photo upload failed. */
@@ -32,6 +46,7 @@ export function NewPersonaDialog({ onClose, onCreated }: Props) {
   const [name, setName] = useState('')
   const [prompt, setPrompt] = useState('')
   const [backend, setBackend] = useState<AvatarBackend>('simli')
+  const [voiceChoice, setVoiceChoice] = useState('')
   const [voiceId, setVoiceId] = useState('')
   const [photo, setPhoto] = useState<File | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -65,7 +80,8 @@ export function NewPersonaDialog({ onClose, onCreated }: Props) {
 
     const body: PersonaCreate = { name: name.trim(), avatar_backend: backend }
     if (prompt.trim()) body.system_prompt = prompt.trim()
-    if (voiceId.trim()) body.voice = { provider: 'cartesia', model: 'sonic-3', voice_id: voiceId.trim() }
+    const voice = voiceChoice === CUSTOM_VOICE ? voiceId.trim() : voiceChoice
+    if (voice) body.voice = { provider: 'cartesia', model: 'sonic-3', voice_id: voice }
 
     setSubmitting(true)
     let created: Persona
@@ -162,17 +178,27 @@ export function NewPersonaDialog({ onClose, onCreated }: Props) {
               </label>
 
               <label className="field">
-                <span>
-                  Cartesia voice ID <em>optional</em>
-                </span>
-                <input
-                  name="voice_id"
-                  value={voiceId}
-                  onChange={(e) => setVoiceId(e.target.value)}
-                  placeholder="Default voice"
-                  spellCheck={false}
-                  autoComplete="off"
-                />
+                <span>Voice</span>
+                <select name="voice" value={voiceChoice} onChange={(e) => setVoiceChoice(e.target.value)}>
+                  <option value="">Default voice (female)</option>
+                  {VOICES.map((v) => (
+                    <option key={v.id} value={v.id}>
+                      {v.label}
+                    </option>
+                  ))}
+                  <option value={CUSTOM_VOICE}>Custom Cartesia voice ID…</option>
+                </select>
+                {voiceChoice === CUSTOM_VOICE && (
+                  <input
+                    name="voice_id"
+                    value={voiceId}
+                    onChange={(e) => setVoiceId(e.target.value)}
+                    placeholder="Cartesia voice ID"
+                    spellCheck={false}
+                    autoComplete="off"
+                  />
+                )}
+                <small className="field-hint">Pick one that matches the face.</small>
               </label>
             </div>
           </div>

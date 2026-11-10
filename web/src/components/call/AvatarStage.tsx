@@ -94,6 +94,11 @@ export function AvatarStage({ persona, phase, session, debug, onError }: Props) 
         </Suspense>
       )}
       {mode === 'voice' && <VoiceStage persona={persona} />}
+      {mode === 'voice' && photoBackend && agentLive && (
+        <div className="stage-note" role="status">
+          The video avatar is still warming up. Keep talking: the face takes over when it is ready.
+        </div>
+      )}
 
       {/* browser3d plays the agent audio through TalkingHead's Web Audio graph
           (lip-sync); mounting RoomAudioRenderer too would play it twice. */}

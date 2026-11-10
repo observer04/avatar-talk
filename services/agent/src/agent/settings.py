@@ -31,7 +31,11 @@ class AgentSettings(ServiceSettings):
     flashhead_launch_url: str | None = None
 
     # Seconds to wait for a video avatar to join before falling back to voice-only.
-    avatar_join_timeout: float = 45.0
+    avatar_join_timeout: float = 45.0  # Simli: wait for the avatar before starting the session
+    # FlashHead: wait this long for a warm worker before starting voice-only, then keep
+    # waiting up to flashhead_late_join_timeout for a cold one and switch to it when it joins.
+    flashhead_ready_timeout: float = 8.0
+    flashhead_late_join_timeout: float = 180.0
     # Barge-in: "adaptive" (ML, ignores backchannels like "mm-hmm") or "vad" (faster, cruder).
     # Benchmarked: vad stopped the agent ~0.7 s sooner than adaptive (docs/benchmarks.md).
     interruption_mode: str = "vad"

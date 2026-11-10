@@ -149,6 +149,7 @@ async def run_session(payload: LaunchPayload, *, model=None) -> str:
         fps=model.params.fps,
         sample_rate=model.params.sample_rate,
         max_session_seconds=max_session,
+        agent_wait_seconds=float(os.environ.get("FLASHHEAD_AGENT_WAIT_SECONDS", "30")),
     )
     log.info(
         "starting avatar for room=%s persona=%s (%dx%d @ %d fps, %s)",

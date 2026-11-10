@@ -56,6 +56,7 @@ class AvatarRunner:
         fps: int = 25,
         sample_rate: int = 16000,
         max_session_seconds: float | None = None,
+        agent_wait_seconds: float = 30.0,
     ) -> None:
         self._livekit_url = livekit_url
         self._token = token
@@ -66,6 +67,9 @@ class AvatarRunner:
         self._fps = fps
         self._sample_rate = sample_rate
         self._max_session_seconds = max_session_seconds
+        # A launch can sit in the GPU queue for minutes; if the agent is gone by the
+        # time we join, leave instead of holding a GPU until the container timeout.
+        self._agent_wait_seconds = agent_wait_seconds
 
         self._room = rtc.Room()
         self._recv = DataStreamAudioReceiver(self._room, sender_identity=agent_identity)
@@ -140,11 +144,15 @@ class AvatarRunner:
         start_task = asyncio.create_task(self._recv.start(), name="flashhead-recv-start")
         done_task = asyncio.create_task(self._done.wait(), name="flashhead-recv-done")
         finished, pending = await asyncio.wait(
-            {start_task, done_task}, return_when=asyncio.FIRST_COMPLETED
+            {start_task, done_task}, timeout=self._agent_wait_seconds, return_when=asyncio.FIRST_COMPLETED
         )
         for task in pending:
             task.cancel()
         await asyncio.gather(*pending, return_exceptions=True)
+        if not finished:
+            self._reason = f"agent not in the room after {self._agent_wait_seconds:.0f}s (stale launch)"
+            log.warning("FlashHead: %s; leaving", self._reason)
+            return False
         if done_task in finished:
             self._reason = "agent left before the audio stream started"
             return False

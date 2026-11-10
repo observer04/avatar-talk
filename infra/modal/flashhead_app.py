@@ -8,7 +8,9 @@ Deploy:
     env -u MODAL_TOKEN_ID -u MODAL_TOKEN_SECRET modal deploy infra/modal/flashhead_app.py
 
 Environment (read at deploy time):
-    FLASHHEAD_GPU          L40S (default), H100, A10, ...
+    FLASHHEAD_GPU          comma-separated preference list (default "L40S,H100": an L40S if one
+                           is free, else an H100; a single narrow choice can queue for minutes)
+    FLASHHEAD_REGION       Modal region (default "us": any US region; "us-east" etc. queues longer)
     FLASHHEAD_MODEL        lite (default) or pro
     FLASHHEAD_COMPILE      1 to enable torch.compile (default 0 / eager)
     FLASHHEAD_KEEP_WARM    1 to keep one GPU container warm (default 0)
@@ -33,7 +35,8 @@ FA_WHEEL = (
     "flash_attn-2.8.0.post2+cu12torch2.7cxx11abiTRUE-cp310-cp310-linux_x86_64.whl"
 )
 
-GPU = os.environ.get("FLASHHEAD_GPU", "L40S")
+GPU = [g.strip() for g in os.environ.get("FLASHHEAD_GPU", "L40S,H100").split(",") if g.strip()]
+REGION = os.environ.get("FLASHHEAD_REGION", "us")
 MODEL = os.environ.get("FLASHHEAD_MODEL", "lite")
 COMPILE = os.environ.get("FLASHHEAD_COMPILE", "0") == "1"
 KEEP_WARM = os.environ.get("FLASHHEAD_KEEP_WARM", "0") == "1"
@@ -142,7 +145,7 @@ session_env = {
     cpu=8,
     memory=49152,
     timeout=SESSION_TIMEOUT,
-    region="us-east",
+    region=REGION,
     min_containers=1 if KEEP_WARM else 0,
     max_containers=MAX_CONTAINERS,
     scaledown_window=SCALEDOWN_WINDOW,

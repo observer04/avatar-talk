@@ -371,3 +371,10 @@ input:focus-visible + .photo-drop, .photo-field:focus-within .photo-drop { borde
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+.stage-note {
+  position: absolute; left: 50%; bottom: 104px; transform: translateX(-50%);
+  max-width: min(520px, calc(100% - 32px)); padding: 8px 14px; border-radius: 999px;
+  font-size: 13px; text-align: center; background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.12); backdrop-filter: blur(6px);
+}

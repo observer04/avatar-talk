@@ -133,7 +133,21 @@ The warm run is the complete avatar path: TTS audio over the DataStream, lip-syn
 
 **Reliability fix (found in the first full-session e2e):** the worker crashed 25 s into the session — `TypeError: unsupported operand type(s) for +=: 'NoneType' and 'float'` in `_pace()`. `clear_buffer()` (sent by the agent on interruption) resets the pacing deadline to `None` while `_pace()` is awaiting its sleep; on resume it did `None += 1/fps`. Fixed with a post-sleep re-anchor, plus a regression test that reproduces the exact production traceback on the old code (`test_clear_buffer_during_pace_sleep_does_not_crash`).
 
+### Cold start fix (2026-11-10, first real-mic test)
+
+The first browser call to a FlashHead persona showed the cold-start failure: the agent waited 45 s, gave up and went voice-only, then the avatar joined late and published idle video (blinks, small head motion) while the voice went straight to the room, so the lips never moved. The persona also had no voice set, so Cartesia's default (female) voice played over a male face.
+
+What the logs showed: once a GPU container starts, model load + photo prepare + warmup + room join take ~4 s. The minutes of "cold start" were Modal queueing for an L40S in `us-east` (one launch sat at `backlog=1, runners=0` for 2 min 18 s). And a launch that starts after the call ended joined an empty room and would have waited for the agent until the 1 h container timeout.
+
+Fixes:
+- **GPU availability:** `gpu=["L40S", "H100"]` (H100 only when no L40S is free) and `region="us"` instead of `us-east`. Configurable with `FLASHHEAD_GPU` and `FLASHHEAD_REGION`.
+- **Late join:** the agent waits `flashhead_ready_timeout` (8 s) for a warm worker, otherwise starts voice-only and, when the avatar joins (up to `flashhead_late_join_timeout`, 180 s), moves the audio to it between replies with `session.output.replace_audio_tail`.
+- **Stale launches:** the worker leaves if the agent is not in the room within 30 s (`FLASHHEAD_AGENT_WAIT_SECONDS`).
+- **Voice:** the new-persona form has a voice picker (male and female Cartesia voices) instead of a free-text ID.
+
+Cold-GPU e2e after the fix (synthetic caller, Ember persona): greeting 18.95 s (voice-only, before the avatar was ready), avatar joined 25 s after session start and audio switched to it at 7.1 s into the session, video 24.7 fps 512×512, tool turn 4.5 s, plain turn 6.66 s, barge-in 2.13 s. The greeting time was with the earlier 12 s wait; it is now 8 s.
+
 **Known gaps:**
-- **Cold start vs join timeout.** A cold L40S container takes 25–80 s; the agent waits 45 s (`avatar_join_timeout`) then falls back to voice-only gracefully (the avatar still joins and publishes idle video). Warm joins are ~5–6 s. Pre-warm before demos: `FLASHHEAD_KEEP_WARM=1` at deploy time, or a dummy launch.
+- **Cold start.** With the fixes a cold avatar appears ~25 s into the call, with voice-only before that. Pre-warm before demos: `FLASHHEAD_KEEP_WARM=1` at deploy time.
 - **Per-turn latency.** The avatar adds ~3–4 s per turn (0.96 s audio chunks + frame pacing + the DataStream hop) vs ~0.7–1.0 s for Simli. Follow-up tuning: smaller chunks, and isolating the model in its own process to fix the ~300–500 ms media-path stalls (GIL contention with the LiveKit event loop).
 - **Cost.** ~$0.09 of L40S for a 2-minute single-stream session; $0.68/stream-hr at 4-stream density (see the spike report).
